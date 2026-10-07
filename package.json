@@ -1,0 +1,25 @@
+{
+  "name": "mcmodel-bedrock-skill",
+  "version": "1.0.0",
+  "description": "AI agent skill that converts a 2D reference image into a Minecraft Bedrock .geo.json model and a procedural .png texture",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node src/index.js --test"
+  },
+  "keywords": [
+    "minecraft",
+    "bedrock",
+    "geo.json",
+    "blockbench",
+    "agent",
+    "skill"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=16"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "pngjs": "^7.0.0"
+  }
+}

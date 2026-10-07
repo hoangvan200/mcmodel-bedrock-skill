@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "mcmodel-bedrock-server": {
+      "command": "node",
+      "args": ["D:/code/aiskills/mcmodel-bedrock-skill/mcp_server.js"]
+    }
+  }
+}

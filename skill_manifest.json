@@ -1,0 +1,197 @@
+{
+  "name": "build_minecraft_asset",
+  "description": "Builds a Minecraft Bedrock .geo.json model (and optionally a procedural .png texture) from a cuboid and bone decomposition of a 2D reference image. Call it once, after the <spatial_analysis> block. Cube origins are bottom-left-front corners [minX, minY, minZ], never centers. UV coordinates are computed by the tool and must not be supplied.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "asset_name": {
+        "type": "string",
+        "description": "Lowercase snake_case asset identifier used for the geometry identifier and output file names.",
+        "pattern": "^[a-z0-9_]+$",
+        "minLength": 1,
+        "maxLength": 64
+      },
+      "format_version": {
+        "type": "string",
+        "description": "Bedrock geometry format version. The tool always writes 1.19.0.",
+        "enum": [
+          "1.19.0"
+        ],
+        "default": "1.19.0"
+      },
+      "mode": {
+        "type": "string",
+        "description": "block: 16x16x16 footprint, base at Y=0, hard limit 30x30x30. entity: free dimensions with a full skeletal hierarchy.",
+        "enum": [
+          "block",
+          "entity"
+        ]
+      },
+      "generate_texture": {
+        "type": "boolean",
+        "description": "True when the command contained --texture. Every cube must then carry a material object.",
+        "default": false
+      },
+      "visible_bounds": {
+        "type": "object",
+        "description": "Culling bounds in block units (1 block = 16 pixels). Required for entities. Offset is the center of the bounds relative to the entity origin.",
+        "properties": {
+          "width": {
+            "type": "number",
+            "description": "Horizontal size of the bounds in blocks.",
+            "exclusiveMinimum": 0
+          },
+          "height": {
+            "type": "number",
+            "description": "Vertical size of the bounds in blocks.",
+            "exclusiveMinimum": 0
+          },
+          "offset": {
+            "type": "array",
+            "description": "Center of the bounds [x, y, z] in blocks.",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 3,
+            "maxItems": 3
+          }
+        },
+        "required": [
+          "width",
+          "height",
+          "offset"
+        ]
+      },
+      "bones": {
+        "type": "array",
+        "description": "Ordered bone list. Parents must be declared before their children. The first bone must be named root.",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Unique bone name such as root, body, head, arm_left, leg_right, tail."
+            },
+            "parent": {
+              "type": "string",
+              "description": "Name of the parent bone. Omit only for root."
+            },
+            "pivot": {
+              "type": "array",
+              "description": "Absolute joint pivot [x, y, z] in model pixels.",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "rotation": {
+              "type": "array",
+              "description": "Rest-pose bone rotation [x, y, z] in degrees.",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "cubes": {
+              "type": "array",
+              "description": "Cuboids attached to this bone.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "origin": {
+                    "type": "array",
+                    "description": "Bottom-left-front corner [minX, minY, minZ] in model pixels. Origin = Center - Size / 2.",
+                    "items": {
+                      "type": "number"
+                    },
+                    "minItems": 3,
+                    "maxItems": 3
+                  },
+                  "size": {
+                    "type": "array",
+                    "description": "Cuboid size [width, height, depth] in pixels.",
+                    "items": {
+                      "type": "number"
+                    },
+                    "minItems": 3,
+                    "maxItems": 3
+                  },
+                  "pivot": {
+                    "type": "array",
+                    "description": "Absolute rotation pivot [x, y, z]. Required when rotation is non-zero.",
+                    "items": {
+                      "type": "number"
+                    },
+                    "minItems": 3,
+                    "maxItems": 3
+                  },
+                  "rotation": {
+                    "type": "array",
+                    "description": "Cuboid rotation [x, y, z] in degrees around its pivot.",
+                    "items": {
+                      "type": "number"
+                    },
+                    "minItems": 3,
+                    "maxItems": 3
+                  },
+                  "inflate": {
+                    "type": "number",
+                    "description": "Uniform expansion per side in pixels. Use 0.01 or -0.01 to prevent Z-fighting.",
+                    "default": 0
+                  },
+                  "mirror": {
+                    "type": "boolean",
+                    "description": "Mirror the Box UV horizontally.",
+                    "default": false
+                  },
+                  "material": {
+                    "type": "object",
+                    "description": "Procedural paint instructions, required for every cube when generate_texture is true.",
+                    "properties": {
+                      "color": {
+                        "type": "string",
+                        "description": "Dominant hex color extracted from the reference image.",
+                        "pattern": "^#[0-9a-fA-F]{6}$"
+                      },
+                      "style": {
+                        "type": "string",
+                        "description": "Surface material style.",
+                        "enum": [
+                          "solid",
+                          "noise",
+                          "bordered",
+                          "shaded"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "color",
+                      "style"
+                    ]
+                  }
+                },
+                "required": [
+                  "origin",
+                  "size"
+                ]
+              }
+            }
+          },
+          "required": [
+            "name",
+            "pivot"
+          ]
+        }
+      }
+    },
+    "required": [
+      "asset_name",
+      "mode",
+      "generate_texture",
+      "bones"
+    ]
+  }
+}
