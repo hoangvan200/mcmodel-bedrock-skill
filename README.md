@@ -65,8 +65,8 @@ The AI will intelligently infer the correct bones, dimensions, structural logic,
 
 Here are some models generated 100% autonomously by the AI using this skill:
 
-### High Detail Cat
-![Cat](image/cat.png)
+### Mini Green Dragon
+![Dragon](mini_green_dragon.png)
 
 ### Mecha Robot
 ![Robot](image/robot.png)
