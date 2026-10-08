@@ -41,7 +41,7 @@ function setPixel(png, x, y, color, factor) {
   png.data[offset + 3] = 255;
 }
 
-function paintFace(png, rect, color, shade, style, rng) {
+function paintFace(png, rect, color, shade, style, rng, depth, seed) {
   const left = rect[0];
   const top = rect[1];
   const width = rect[2];
@@ -51,11 +51,19 @@ function paintFace(png, rect, color, shade, style, rng) {
     for (let px = 0; px < width; px += 1) {
       let factor = shade;
       
-      // Base subtle noise to prevent the flat plastic look
-      const baseNoise = 0.94 + rng() * 0.12;
+      // Calculate vertical gradient (1.12 at top to 0.88 at bottom)
+      // This gives a 3D volumetric feel to the faces
+      const t = height > 1 ? py / (height - 1) : 0;
+      const gradient = 1.12 - 0.24 * t;
+      
+      // Calculate Base Noise (Pixel-perfect White Noise)
+      const amplitude = Math.min(0.025, 0.005 + depth * 0.01);
+      const baseNoise = (1.0 - amplitude) + rng() * (amplitude * 2);
 
       if (style === "noise") {
-        factor *= 0.82 + rng() * 0.36; // stronger noise
+        // Combined Gradient + Heavy Noise (Perfect for Fur / Organic)
+        const heavyNoise = 0.85 + rng() * 0.30;
+        factor *= gradient * heavyNoise;
       } else if (style === "bordered") {
         factor *= baseNoise;
         const edge = px === 0 || py === 0 || px === width - 1 || py === height - 1;
@@ -63,18 +71,17 @@ function paintFace(png, rect, color, shade, style, rng) {
           factor *= 0.72;
         }
       } else if (style === "shaded") {
-        factor *= baseNoise;
-        const t = height > 1 ? py / (height - 1) : 0;
-        factor *= 1.12 - 0.24 * t;
+        // Combined Gradient + Subtle Base Noise (Perfect for Car Paint / Plastic)
+        factor *= gradient * baseNoise;
       } else {
-        // solid style or default
+        // solid style
         factor *= baseNoise;
       }
 
-      // Add RGB channel shift for dithering (shifting nearby colors)
-      const colorShiftR = (rng() - 0.5) * 10;
-      const colorShiftG = (rng() - 0.5) * 10;
-      const colorShiftB = (rng() - 0.5) * 10;
+      // Add RGB channel shift for subtle per-pixel color variation (Dithering)
+      const colorShiftR = (rng() - 0.5) * 5;
+      const colorShiftG = (rng() - 0.5) * 5;
+      const colorShiftB = (rng() - 0.5) * 5;
       
       const finalColor = [
         color[0] + colorShiftR,
@@ -121,8 +128,9 @@ function paintTexture(options) {
     const d = record.size[2];
 
     faceLayout(u, v, w, h, d).forEach((face, faceIndex) => {
-      const rng = createRng(record.index * 7919 + faceIndex * 104729 + 12345);
-      paintFace(png, face.rect, color, face.shade, style, rng);
+      const seed = record.index * 7919 + faceIndex * 104729 + 12345;
+      const rng = createRng(seed);
+      paintFace(png, face.rect, color, face.shade, style, rng, record.depth || 0, seed);
     });
   });
 

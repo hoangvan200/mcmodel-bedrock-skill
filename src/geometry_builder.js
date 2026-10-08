@@ -221,8 +221,31 @@ function orderBones(bones, root) {
 
 function collectCubes(bones) {
   const cubes = [];
+  const depthMap = new Map();
+  let changed = true;
+  while (changed) {
+    changed = false;
+    bones.forEach((bone) => {
+      if (!depthMap.has(bone.name)) {
+        if (!bone.parent) {
+          depthMap.set(bone.name, 0);
+          changed = true;
+        } else if (depthMap.has(bone.parent)) {
+          const parentBone = bones.find(b => b.name === bone.parent);
+          const hasCubes = parentBone && parentBone.cubes && parentBone.cubes.length > 0;
+          depthMap.set(bone.name, depthMap.get(bone.parent) + (hasCubes ? 1 : 0));
+          changed = true;
+        }
+      }
+    });
+  }
+  
   bones.forEach((bone) => {
-    bone.cubes.forEach((cube) => cubes.push(cube));
+    const depth = depthMap.get(bone.name) || 0;
+    bone.cubes.forEach((cube) => {
+      cube.boneDepth = depth;
+      cubes.push(cube);
+    });
   });
   return cubes;
 }
@@ -462,13 +485,19 @@ function serializeCube(cube, uv) {
     const h = cube.size[1];
     const d = cube.size[2];
     
+    // Atlas layout and painter allocate in full integer increments (ceil).
+    // The UV read offsets must perfectly align with these ceiled integers,
+    // while the uv_size defines the actual float rendering crop.
+    const cw = Math.ceil(w);
+    const cd = Math.ceil(d);
+    
     output.uv = {
-      up: { uv: [round(u + d), round(v)], uv_size: [round(w), round(d)] },
-      down: { uv: [round(u + d + w), round(v)], uv_size: [round(w), round(d)] },
-      east: { uv: [round(u), round(v + d)], uv_size: [round(d), round(h)] },
-      north: { uv: [round(u + d), round(v + d)], uv_size: [round(w), round(h)] },
-      west: { uv: [round(u + d + w), round(v + d)], uv_size: [round(d), round(h)] },
-      south: { uv: [round(u + 2 * d + w), round(v + d)], uv_size: [round(w), round(h)] }
+      up: { uv: [round(u + cd), round(v)], uv_size: [round(w), round(d)] },
+      down: { uv: [round(u + cd + cw), round(v)], uv_size: [round(w), round(d)] },
+      east: { uv: [round(u), round(v + cd)], uv_size: [round(d), round(h)] },
+      north: { uv: [round(u + cd), round(v + cd)], uv_size: [round(w), round(h)] },
+      west: { uv: [round(u + cd + cw), round(v + cd)], uv_size: [round(d), round(h)] },
+      south: { uv: [round(u + 2 * cd + cw), round(v + cd)], uv_size: [round(w), round(h)] }
     };
   } else {
     output.uv = uv;
@@ -519,6 +548,16 @@ function buildGeometry(payload, options) {
     throw new Error("Payload does not contain any cube with a positive size");
   }
 
+  // Auto-resolve Z-fighting by adding a microscopic translation offset to the origin based on index.
+  // Inflate sometimes fails to prevent Z-fighting in some Bedrock rendering paths if the faces still cross.
+  // A tiny translation guarantees every cube exists on entirely unique spatial planes without changing size.
+  cubes.forEach((cube, index) => {
+    const shift = (index + 1) * 0.005; // 0.005 pixel shift
+    cube.origin[0] += shift;
+    cube.origin[1] += shift;
+    cube.origin[2] += shift;
+  });
+
   const bounds = resolveVisibleBounds(payload.visible_bounds, bones);
   const packing = packBoxUv(cubes);
 
@@ -531,12 +570,15 @@ function buildGeometry(payload, options) {
       index,
       uv,
       size: [Math.ceil(cube.size[0]), Math.ceil(cube.size[1]), Math.ceil(cube.size[2])],
-      material: cube.material
+      material: cube.material,
+      depth: cube.boneDepth
     });
   });
 
+  const formatVersion = payload.format_version || FORMAT_VERSION;
+
   const geometry = {
-    format_version: FORMAT_VERSION,
+    format_version: formatVersion,
     "minecraft:geometry": [
       {
         description: {

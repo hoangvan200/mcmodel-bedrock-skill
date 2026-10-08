@@ -13,10 +13,7 @@
       },
       "format_version": {
         "type": "string",
-        "description": "Bedrock geometry format version. The tool always writes 1.19.0.",
-        "enum": [
-          "1.19.0"
-        ],
+        "description": "Geometry format version. Defaults to 1.19.0, but can be set to custom versions like 26.3 for Java mod models.",
         "default": "1.19.0"
       },
       "mode": {
