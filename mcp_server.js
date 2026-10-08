@@ -1,10 +1,10 @@
 const { Server } = require("@modelcontextprotocol/sdk/server/index.js");
 const { StdioServerTransport } = require("@modelcontextprotocol/sdk/server/stdio.js");
-const { ListToolsRequestSchema, CallToolRequestSchema } = require("@modelcontextprotocol/sdk/types.js");
+const { ListToolsRequestSchema, CallToolRequestSchema, ListPromptsRequestSchema, GetPromptRequestSchema } = require("@modelcontextprotocol/sdk/types.js");
 const { buildMinecraftAsset, skillManifest } = require(".");
 const fs = require("fs");
 
-const server = new Server({ name: "mcmodel-bedrock-skill", version: "1.0.0" }, { capabilities: { tools: {} } });
+const server = new Server({ name: "mcmodel-bedrock-skill", version: "1.0.0" }, { capabilities: { tools: {}, prompts: {} } });
 
 server.setRequestHandler(ListToolsRequestSchema, async () => ({
   tools: [
@@ -15,6 +15,35 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
     }
   ]
 }));
+
+server.setRequestHandler(ListPromptsRequestSchema, async () => ({
+  prompts: [
+    {
+      name: "mcmodel-bedrock",
+      description: "Prompt for the Minecraft Bedrock Model Architect",
+      arguments: []
+    }
+  ]
+}));
+
+server.setRequestHandler(GetPromptRequestSchema, async (request) => {
+  if (request.params.name !== "mcmodel-bedrock") {
+    throw new Error(`Unknown prompt: ${request.params.name}`);
+  }
+  const promptText = fs.readFileSync("./prompts/system_prompt.md", "utf8");
+  return {
+    description: "Minecraft Bedrock Model Architect Prompt",
+    messages: [
+      {
+        role: "user",
+        content: {
+          type: "text",
+          text: promptText
+        }
+      }
+    ]
+  };
+});
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   if (request.params.name !== skillManifest.name) {
