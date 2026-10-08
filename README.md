@@ -79,3 +79,4 @@ Here are some models generated 100% autonomously by the AI using this skill:
 
 ---
 *Built for the AI-assisted Minecraft Creator community.*
+*project created by AI*
