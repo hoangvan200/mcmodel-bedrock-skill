@@ -41,8 +41,8 @@ npm install
 Simply ask the AI agent to build a model!
 
 **Prompt Examples:**
-- "Tạo entity model con mèo độ chi tiết cao"
-- "Tạo block model ghế của sếp"
-- "Tạo mô hình siêu xe dạng --java-model --v26.3"
+- "Create a highly detailed entity model of a mutant fox with glowing eyes and an open jaw. Generate textures."
+- "Build a block model of a classic arcade machine."
+- "Design a modern sports car entity model. Please format it as a `--java-model` using `--v26.3`."
 
 The skill will infer the correct bones, dimensions, color palettes, and texture styles automatically.
