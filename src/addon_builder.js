@@ -147,7 +147,7 @@ function packageAddon(options) {
   let firstTexturePath = null;
 
   items.forEach(item => {
-    const shortId = item.assetName;
+    const shortId = item.assetName || item.asset_name;
     const fullId = `custom:${shortId}`;
     const geoIdentifier = `geometry.${shortId}`;
     const geoPath = path.join(outputDir, `${shortId}.geo.json`);
