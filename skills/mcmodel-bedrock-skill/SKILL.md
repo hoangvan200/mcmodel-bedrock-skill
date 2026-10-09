@@ -168,13 +168,20 @@ If the user requests a large workload (e.g., generating 5 or more models at once
    - Reject bad models and send actionable feedback to regenerate or fix them until they meet the highest standard.
 3. Once the QA subagent approves all models, you may proceed to package them using `package_addon`.
 
-## 11. SELF-CHECK BEFORE CALLING THE TOOL
+## 11. ROTATION AND POSITIONING ERRORS (CRITICAL)
 
+When creating models, you must prevent "floating/detached cubes" and "incorrect rotation hinges" (like those in the user's report).
+1. **Recalculating Origin:** The `origin` of a cube is strictly tied to its `size`. If you ever decide to change the `size` of a cube during brainstorming or generation, you **MUST** recalculate the `origin` (`[Cx - W/2, Cy - H/2, Cz - D/2]`). Failure to do this will cause the cube to detach and float away from the model.
+2. **Rotation Pivots:** If you apply a `rotation` to a cube or a bone, you **MUST** ensure its `pivot` is placed exactly at the intended hinge point (e.g., the edge or joint) relative to the cube's true spatial position. A misaligned pivot will cause the block to swing wildly out of place when rotated.
+
+## 12. SELF-CHECK BEFORE CALLING THE TOOL
+
+- **Did you change any cube's `size`? If yes, did you mathematically recalculate its `origin`?**
 - Is every `origin` a corner, not a center?
 - Does the first bone equal `root` and does every other bone have an existing parent declared earlier?
 - In block mode: base at Y = 0, nothing outside -15..15 on X and Z, nothing above Y = 30?
 - In entity mode: does each pivot sit on a real joint, and do `visible_bounds` cover the whole model?
-- Does every cube with `rotation` also have a `pivot`?
+- Does every cube with `rotation` also have a `pivot` aligned to a real hinge point?
 - Are intersecting or coplanar cuboids separated with `inflate` of 0.01 or -0.01?
 - With `--texture`: does every cube have a `material` with a valid `#RRGGBB` color and one of `solid`, `noise`, `bordered`, `shaded`? **CRITICAL: NEVER use `noise` for animal fur, hair, or car paint as it creates ugly pixelation. ALWAYS use `shaded` for these to leverage volumetric gradients.** Use `noise` only for dirt, stone, or sand.
 - Are `uv`, `texture_width`, and `texture_height` absent?
