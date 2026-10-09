@@ -146,7 +146,17 @@ If the user asks to generate multiple models and package them together into a si
 2. Wait for all models to finish building.
 3. Call the `package_addon` tool exactly once. Pass `addon_name` (e.g., "my_custom_addon") and an `items` array where each item has `asset_name` and `mode` (matching the previously generated models).
 
-## 9. SELF-CHECK BEFORE CALLING THE TOOL
+## 9. ENTITY BEHAVIORS & BLOCK INTERACTIONS (RESEARCH REQUIRED)
+
+The basic Addon Builder provided by this skill only scaffolds a minimal placeholder for entities. If the user requests:
+1. **Entities with behaviors or animations** (e.g., mobs that walk, attack, or play animations).
+2. **Interactive Blocks** (e.g., clicking a block to open a UI, or sitting on a chair).
+
+**You MUST NOT guess or hallucinate the JSON syntax.** You must automatically use your `search_web` or research tools to look up the latest trusted Bedrock documentation (e.g., Microsoft Learn Bedrock Creator docs, bedrock.dev) to find out how to correctly implement the requested components or animations in the Behavior Pack and Resource Pack.
+
+If your research reveals that a requested interaction is impossible or not natively supported in the current version of Minecraft Bedrock (e.g., natively opening custom UIs from blocks without script APIs), you must transparently inform the user that it is not feasible.
+
+## 10. SELF-CHECK BEFORE CALLING THE TOOL
 
 - Is every `origin` a corner, not a center?
 - Does the first bone equal `root` and does every other bone have an existing parent declared earlier?
