@@ -3,6 +3,7 @@ const path = require("path");
 const { parseCommand } = require("./command_parser");
 const { buildGeometry, saveGeometry } = require("./geometry_builder");
 const { paintTexture, saveTexture } = require("./texture_painter");
+const { createAddon } = require("./addon_builder");
 const skillManifest = require("../skill_manifest.json");
 
 const SAMPLE_PAYLOAD_PATH = path.join(__dirname, "..", "examples", "sample_payload.json");
@@ -34,6 +35,18 @@ function buildMinecraftAsset(input, options) {
   }
 
   const description = built.geometry["minecraft:geometry"][0].description;
+  let addonPath = null;
+
+  if (payload.build_addon) {
+    addonPath = createAddon({
+      assetName: built.assetName,
+      identifier: description.identifier,
+      mode: built.mode,
+      geoPath,
+      texturePath,
+      outputDir
+    });
+  }
 
   return {
     assetName: built.assetName,
@@ -41,6 +54,7 @@ function buildMinecraftAsset(input, options) {
     mode: built.mode,
     geoPath,
     texturePath,
+    addonPath,
     textureWidth: built.textureWidth,
     textureHeight: built.textureHeight,
     boneCount: built.geometry["minecraft:geometry"][0].bones.length,
@@ -81,6 +95,9 @@ function runCli(args) {
   console.log("texture:     " + result.textureWidth + "x" + result.textureHeight);
   console.log("geometry:    " + result.geoPath);
   console.log("png:         " + (result.texturePath || "not generated"));
+  if (result.addonPath) {
+    console.log("addon:       " + result.addonPath);
+  }
   return 0;
 }
 

@@ -29,6 +29,11 @@
         "description": "True when the command contained --texture. Every cube must then carry a material object.",
         "default": false
       },
+      "build_addon": {
+        "type": "boolean",
+        "description": "True when the command contained --build. Generates a fully working .mcaddon file containing Resource and Behavior Packs for the model.",
+        "default": false
+      },
       "visible_bounds": {
         "type": "object",
         "description": "Culling bounds in block units (1 block = 16 pixels). Required for entities. Offset is the center of the bounds relative to the entity origin.",

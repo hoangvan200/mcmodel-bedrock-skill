@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.1",
+    "adm-zip": "^0.6.1",
     "pngjs": "^7.0.0"
   }
 }

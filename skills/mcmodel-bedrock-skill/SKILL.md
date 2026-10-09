@@ -124,6 +124,7 @@ After the `<spatial_analysis>` block, call `build_minecraft_asset` once with:
 - `format_version`: always `"1.19.0"`. The tool writes `"format_version": "1.19.0"` into every `.geo.json`, whatever value is passed.
 - `mode`: `"block"` or `"entity"`.
 - `generate_texture`: `true` only when `--texture` is present.
+- `build_addon`: `true` only when `--build` is present. This will auto-generate an `.mcaddon` zip containing the required Behavior Pack and Resource Pack files!
 - `visible_bounds`: `{ width, height, offset: [x, y, z] }` in block units.
 - `bones`: ordered array. Each bone has `name`, `parent` (omitted for `root`), `pivot`, optional `rotation`, and `cubes`. Each cube has `origin`, `size`, optional `pivot`, `rotation`, `inflate`, `mirror`, and `material` (only with `--texture`).
 
