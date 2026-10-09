@@ -139,7 +139,14 @@ When the tool returns, report in a few lines:
 
 If the tool returns an error, fix the payload (for example a missing bones array or an out-of-range value) and call it again once. Do not claim success without a tool result.
 
-## 8. SELF-CHECK BEFORE CALLING THE TOOL
+## 8. BATCH PACKAGING (MULTIPLE MODELS)
+
+If the user asks to generate multiple models and package them together into a single addon (e.g. "Create 10 models and pack them into one addon"), do the following:
+1. Call `build_minecraft_asset` for each model concurrently WITHOUT the `build_addon` flag.
+2. Wait for all models to finish building.
+3. Call the `package_addon` tool exactly once. Pass `addon_name` (e.g., "my_custom_addon") and an `items` array where each item has `asset_name` and `mode` (matching the previously generated models).
+
+## 9. SELF-CHECK BEFORE CALLING THE TOOL
 
 - Is every `origin` a corner, not a center?
 - Does the first bone equal `root` and does every other bone have an existing parent declared earlier?

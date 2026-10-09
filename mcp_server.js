@@ -12,6 +12,28 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
       name: skillManifest.name,
       description: skillManifest.description,
       inputSchema: skillManifest.input_schema
+    },
+    {
+      name: "package_addon",
+      description: "Packages multiple previously generated models into a single .mcaddon file. Call this once after building all models.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          addon_name: { type: "string", description: "Name of the addon." },
+          items: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                asset_name: { type: "string" },
+                mode: { type: "string", enum: ["block", "entity"] }
+              },
+              required: ["asset_name", "mode"]
+            }
+          }
+        },
+        required: ["addon_name", "items"]
+      }
     }
   ]
 }));
@@ -45,7 +67,19 @@ server.setRequestHandler(GetPromptRequestSchema, async (request) => {
   };
 });
 
+const { packageAddon } = require("./src/addon_builder");
+
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
+  if (request.params.name === "package_addon") {
+    const { addon_name, items } = request.params.arguments;
+    const outputDir = "./output";
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir, { recursive: true });
+    }
+    const addonPath = packageAddon({ addonName: addon_name, items, outputDir });
+    return { content: [{ type: "text", text: `Successfully packaged ${items.length} items into ${addonPath}` }] };
+  }
+
   if (request.params.name !== skillManifest.name) {
     throw new Error(`Unknown tool: ${request.params.name}`);
   }
