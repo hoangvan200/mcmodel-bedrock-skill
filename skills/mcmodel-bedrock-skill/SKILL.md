@@ -156,7 +156,19 @@ The basic Addon Builder provided by this skill only scaffolds a minimal placehol
 
 If your research reveals that a requested interaction is impossible or not natively supported in the current version of Minecraft Bedrock (e.g., natively opening custom UIs from blocks without script APIs), you must transparently inform the user that it is not feasible.
 
-## 10. SELF-CHECK BEFORE CALLING THE TOOL
+## 10. SUBAGENT WORKFLOW FOR LARGE BATCHES
+
+If the user requests a large workload (e.g., generating 5 or more models at once), you should utilize subagents to parallelize the work and ensure high quality.
+
+1. **Invoke Builder Subagents:** Delegate the creation of individual models to subagents (e.g., `self` subagents) using the `invoke_subagent` tool.
+2. **Invoke a Quality Assurance (QA) Subagent:** You **MUST** invoke at least 1 subagent explicitly dedicated to Quality Assurance. The QA subagent's role is to:
+   - Review the generated `.geo.json` and `.png` outputs from the builders.
+   - Verify that the design matches the user's prompt perfectly.
+   - Check for structural flaws (e.g., Z-fighting, floating cubes, missing explicit facial features for entities, forbidden use of `noise` style on smooth surfaces).
+   - Reject bad models and send actionable feedback to regenerate or fix them until they meet the highest standard.
+3. Once the QA subagent approves all models, you may proceed to package them using `package_addon`.
+
+## 11. SELF-CHECK BEFORE CALLING THE TOOL
 
 - Is every `origin` a corner, not a center?
 - Does the first bone equal `root` and does every other bone have an existing parent declared earlier?
