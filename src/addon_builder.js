@@ -80,7 +80,11 @@ function buildManifest(type, name, desc) {
   }, null, 2);
 }
 
-function buildEntityBehaviorJson(identifier) {
+function buildEntityBehaviorJson(identifier, customComponents) {
+  const defaultComponents = {
+    "minecraft:physics": {},
+    "minecraft:pushable": { "is_pushable": true, "is_pushable_by_piston": true }
+  };
   return JSON.stringify({
     "format_version": "1.20.80",
     "minecraft:entity": {
@@ -90,10 +94,7 @@ function buildEntityBehaviorJson(identifier) {
         "is_summonable": true,
         "is_experimental": false
       },
-      "components": {
-        "minecraft:physics": {},
-        "minecraft:pushable": { "is_pushable": true, "is_pushable_by_piston": true }
-      }
+      "components": { ...defaultComponents, ...(customComponents || {}) }
     }
   }, null, 2);
 }
@@ -165,7 +166,7 @@ function packageAddon(options) {
       if (fs.existsSync(geoPath)) zip.addLocalFile(geoPath, rpFolder + "models/blocks/");
       if (textureExists) zip.addLocalFile(texturePath, rpFolder + "textures/blocks/", `${shortId}.png`);
     } else {
-      zip.addFile(bpFolder + `entities/${shortId}.json`, Buffer.from(buildEntityBehaviorJson(fullId)));
+      zip.addFile(bpFolder + `entities/${shortId}.json`, Buffer.from(buildEntityBehaviorJson(fullId, item.components)));
       zip.addFile(rpFolder + `entity/${shortId}.entity.json`, Buffer.from(buildClientEntityJson(fullId, geoIdentifier, shortId)));
       if (fs.existsSync(geoPath)) zip.addLocalFile(geoPath, rpFolder + "models/entity/");
       if (textureExists) zip.addLocalFile(texturePath, rpFolder + "textures/entity/", `${shortId}.png`);
