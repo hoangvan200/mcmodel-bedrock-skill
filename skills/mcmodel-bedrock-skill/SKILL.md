@@ -214,6 +214,36 @@ Models scoring 7/10 look like stiff, monolithic toy blocks. To achieve an **8.5/
 - Do not dump all cubes into `root`.
 - Create logical sub-bones with meaningful pivots (e.g., `text`, `bowl`, `legs_x`, `handle`, `lid`, `skewers`) to allow group rotations and realistic pivot hinging.
 
+### 12.7 Quy Chuẩn Hướng Quay Đối Tượng (Direction & Facing Standards)
+- **Quy chuẩn Block (Khối đặt trong thế giới):**
+  - Khi người chơi đặt block (ghế, bàn, xe bán hàng, biển báo), mặt chính diện của khối **BẮT BUỘC quay về phía người chơi** thay vì quay lưng đi.
+  - Cấu hình Permutations chuẩn:
+    - `south`: `rotation: [0, 0, 0]`
+    - `north`: `rotation: [0, 180, 0]`
+    - `west`: `rotation: [0, 90, 0]`
+    - `east`: `rotation: [0, 270, 0]`
+- **Quy chuẩn Entity (Phương tiện & Mob/NPC):**
+  - Trong Minecraft Bedrock, hướng tiến mặc định của Entity là hướng Bắc (**North / -Z**).
+  - Nếu mô hình được thiết kế có mặt trước/đầu xe hướng Nam (+Z), xương `root` **BẮT BUỘC** khai báo `pivot: [0, 0, 0]` và `rotation: [0, 180, 0]`. Điều này đảm bảo khi spawn hoặc lái xe, thực thể nhìn thẳng theo tầm mắt người chơi, không bị quay ngược hay đi lùi (moonwalk).
+
+### 12.8 Quy Chuẩn Cấu Hình Hành Vi Thực Thể (Entity Behavior Components)
+Mỗi entity sinh ra **BẮT BUỘC** phải có đầy đủ gói Behavior Components phù hợp theo phân loại:
+1. **Phương tiện (Rideable Vehicles):**
+   - Hộp va chạm (`minecraft:collision_box`: kích thước thực tế xe).
+   - Máu & Bền (`minecraft:health`: 30 - 60).
+   - Miễn nhiễm ngã (`minecraft:damage_sensor`: rơi không mất máu).
+   - Điều khiển cưỡi (`minecraft:rideable`, `minecraft:input_ground_controlled`, `minecraft:movement.basic`, `minecraft:can_climb`, `minecraft:jump.static`).
+   - Tọa độ ghế ngồi (`seats`) phải canh đúng vị trí người lái và hành khách.
+2. **NPC Người & Thương nhân:**
+   - Hộp va chạm chuẩn người (`width: 0.6, height: 1.8`), `health: 20`.
+   - Điều hướng (`minecraft:navigation.walk`, mở được cửa).
+   - Trí tuệ AI (`minecraft:behavior.look_at_player`, `minecraft:behavior.random_stroll`, `minecraft:behavior.panic`).
+   - Tương tác giao dịch (`minecraft:interact` mở bảng trade / tiếng villager).
+3. **Vật thể tĩnh dạng Entity (Cột điện, Trụ đèn cao thế):**
+   - Không trọng lực (`minecraft:physics: { has_gravity: false, has_collision: true }`).
+   - Không bị đẩy (`minecraft:pushable: { is_pushable: false, is_pushable_by_piston: false }`).
+   - Kháng đẩy lùi & Bất tử (`knockback_resistance: 1.0`, kháng sát thương).
+
 ## 13. SELF-CHECK BEFORE CALLING THE TOOL
 
 - **Did you change any cube's `size`? If yes, did you mathematically recalculate its `origin`?**

@@ -164,6 +164,15 @@ Models scoring 7/10 look like stiff, monolithic toy blocks. To achieve an **8.5/
 - Do not dump all cubes into `root`.
 - Create logical sub-bones with meaningful pivots (e.g., `text`, `bowl`, `legs_x`, `handle`, `lid`, `skewers`) to allow group rotations and realistic pivot hinging.
 
+### 8.7 Quy Chuẩn Hướng Quay Đối Tượng (Direction & Facing Standards)
+- **Quy chuẩn Block:** Block đặt ra phải có mặt chính diện hướng về người chơi. Permutations: `south`: [0, 0, 0], `north`: [0, 180, 0], `west`: [0, 90, 0], `east`: [0, 270, 0].
+- **Quy chuẩn Entity:** Hướng tiến Bedrock là North (-Z). Nếu dựng mô hình mặt trước hướng South (+Z), xương `root` bắt buộc có `rotation: [0, 180, 0]` và `pivot: [0, 0, 0]`.
+
+### 8.8 Quy Chuẩn Cấu Hình Hành Vi Thực Thể (Entity Behaviors)
+- Xe cộ (Vehicles): `rideable`, `input_ground_controlled`, `collision_box`, `health: 50`, `movement`, `movement.basic`, `can_climb`, `jump.static`, miễn nhiễm ngã.
+- NPC: `collision_box`, `health: 20`, `navigation.walk`, `look_at_player`, `random_stroll`, `interact` (giao dịch).
+- Vật thể tĩnh dạng Entity: `has_gravity: false`, `is_pushable: false`, `knockback_resistance: 1.0`, kháng sát thương.
+
 ## 9. SELF-CHECK BEFORE CALLING THE TOOL
 
 - **Did you change any cube's `size`? If yes, did you mathematically recalculate its `origin`?**
