@@ -181,36 +181,27 @@ Models scoring 7/10 look like stiff, monolithic toy blocks. To achieve an **8.5/
 - With `--texture`: does every cube have a `material` with a valid `#RRGGBB` color and one of `solid`, `noise`, `bordered`, `shaded`?
 - Are `uv`, `texture_width`, and `texture_height` absent?
 
-## 10. TÀI LIỆU HƯỚNG DẪN CƠ BẢN & MẪU THAM CHIẾU CHUẨN (CANONICAL PAYLOAD REFERENCE)
+## 10. TÀI LIỆU HƯỚNG DẪN CƠ BẢN & MẪU THAM CHIẾU CHUẨN (CANONICAL REFERENCES)
 
-Khi thiết kế hoặc kiểm tra cấu trúc dữ liệu mô hình cho công cụ `build_minecraft_asset`, nhà phát triển và AI Agent **BẮT BUỘC** tham chiếu theo tài liệu cấu trúc mẫu tại:
-**Đường dẫn file hướng dẫn cơ bản:**
+Khi thiết kế hoặc kiểm tra cấu trúc dữ liệu mô hình và gói tài nguyên, nhà phát triển và AI Agent **BẮT BUỘC** tham chiếu theo 2 tài liệu chuẩn sau:
+
+### 10.1 Hướng Dẫn Kỹ Thuật Toàn Diện (Resource Pack Guide v3)
+**Đường dẫn tài liệu chuẩn bản v3:**
+`D:\code\aiskills\mcmodel-bedrock-skill\examples\minecraft_bedrock_resource_pack_guide-v3.md`
+*(Tài liệu nâng cấp thay thế bản cũ `minecraft_bedrock_resource_pack_guide`, bao quát toàn diện 13 chuyên đề cốt lõi của Minecraft Bedrock 1.21+ bao gồm Client/Server architecture, Manifest rules, Blockbench geometry `.geo.json`, Client Entity & Attachables, Render Controllers, Animations & Controllers, RenderDragon PBR, Block Culling, Script API và Content Logging).*
+
+### 10.2 Cấu Trúc Dữ Liệu Payload Mẫu (Canonical Sample Payload)
+**Đường dẫn file payload mẫu cơ bản:**
 `D:\code\aiskills\mcmodel-bedrock-skill\examples\sample_payload.json`
 
-### 10.1 Cấu Trúc Khung Chuẩn (Standard Schema Overview)
 File mẫu `sample_payload.json` định nghĩa chuẩn cho một khối Bedrock phức hợp (`medieval_lantern`) với đầy đủ các thành phần kỹ thuật cốt lõi:
+1. **Thông tin cấp cao (Root Metadata):** `asset_name`, `format_version`, `mode` (`block` / `entity`), `generate_texture`, `visible_bounds`.
+2. **Cấu trúc phân cấp xương (Bone Hierarchy):** Khởi tạo từ `root` `[0, 0, 0]`, phân rã các sub-bone (`base`, `frame`, `glass`, `flame`, `ember`, `roof`, `handle`) với quan hệ `parent` và `pivot` chính xác.
+3. **Định nghĩa khối hộp (Cube Specification):** Công thức `origin = [Cx - W/2, Cy - H/2, Cz - D/2]`, `size`, `inflate` chống Z-fighting, góc xoay `rotation` kèm `pivot`, gán màu `material` theo 4 phong cách (`bordered`, `shaded`, `solid`, `noise`).
 
-1. **Thông tin cấp cao (Root Metadata):**
-   - `asset_name`: Tên định danh viết thường dạng snake_case (ví dụ: `medieval_lantern`, `low_plastic_chair`).
-   - `format_version`: Luôn để `"1.19.0"` (công cụ tự sinh format tương thích cho block/entity).
-   - `mode`: `"block"` hoặc `"entity"`.
-   - `generate_texture`: `true` hoặc `false` (khi cần vẽ texture thủ tục).
-   - `visible_bounds`: Hộp bao tầm nhìn frustum culling (`width`, `height`, `offset: [x, y, z]`).
-
-2. **Cấu trúc phân cấp xương (Bone Hierarchy):**
-   - Luôn bắt đầu bằng bone `"root"` với `pivot: [0, 0, 0]`.
-   - Các sub-bone tiếp theo phân rã chi tiết logic: `base`, `frame`, `glass`, `flame`, `ember`, `roof`, `handle`.
-   - Thiết lập thuộc tính `"parent"` chính xác để tạo liên kết cha-con.
-
-3. **Định nghĩa khối hộp (Cube Specification):**
-   - `origin`: Tọa độ góc dưới-trái-trước `[minX, minY, minZ]`.
-   - `size`: Kích thước ba chiều `[W, H, D]`.
-   - `inflate`: Sử dụng `0.01` hoặc `-0.01` giữa các khối lồng nhau để triệt tiêu Z-fighting.
-   - `rotation` & `pivot`: Đặt góc xoay linh hoạt kèm điểm bản lề quay thực tế.
-   - `material`: Thuộc tính bề mặt gồm `color` (mã màu Hex `#RRGGBB`) và `style` (`bordered`, `shaded`, `solid`, `noise`).
-
-### 10.2 Sử Dụng Trong Quy Trình Phát Triển & Kiểm Thử
-- **Chạy kiểm thử mẫu từ CLI:** `node src/index.js --test` (nạp trực tiếp `examples/sample_payload.json`).
+### 10.3 Sử Dụng Trong Quy Trình Phát Triển & Kiểm Thử
+- **Chạy kiểm thử mẫu từ CLI:** `node src/index.js --test` (nạp trực tiếp `sample_payload.json`).
 - **Tạo tài nguyên mới từ file JSON:** `node src/index.js --payload <path_to_payload.json> [--out <dir>]`.
+- **Đóng gói toàn bộ Addon:** `node scripts/package_street_funiture_vn.js` (xuất ra gói duy nhất `street funiture vn.mcaddon`).
 
 
