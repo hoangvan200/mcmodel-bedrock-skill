@@ -164,8 +164,13 @@ If the user requests a large workload (e.g., generating 5 or more models at once
 2. **Invoke a Quality Assurance (QA) Subagent:** You **MUST** invoke at least 1 subagent explicitly dedicated to Quality Assurance. The QA subagent's role is to:
    - Review the generated `.geo.json` and `.png` outputs from the builders.
    - Verify that the design matches the user's prompt perfectly.
-   - Check for structural flaws (e.g., Z-fighting, floating cubes, missing explicit facial features for entities, forbidden use of `noise` style on smooth surfaces).
-   - Reject bad models and send actionable feedback to regenerate or fix them until they meet the highest standard.
+   - Enforce the **8.5/10 Quality Benchmark** (reject any model that is flat, monolithic, or rigid):
+     - **Rotational Realism:** Folding legs, A-frames, kettle spouts, resting handles, leaning items MUST have non-zero rotations.
+     - **Hollow Cavity Rule:** Cups, bins, baskets, coolers, and bowls MUST have separate bottom + 4 walls; never solid blocks.
+     - **Slats & Lattice Rule:** Grills, chair backs, and wire cages MUST have individual separated bars/slats with air gaps.
+     - **Cuboid Budget:** Complex carts/stalls/grills MUST have 30 to 55 cuboids (under 30 is rejected as 7/10 quality).
+     - **3D Signage & Detail Props:** Commercial carts/stalls MUST have 3D text/signage bones and physical food/condiment props.
+   - Reject substandard models and send actionable feedback to regenerate or fix them until they meet the highest standard.
 3. Once the QA subagent approves all models, you may proceed to package them using `package_addon`.
 
 ## 11. ROTATION AND POSITIONING ERRORS (CRITICAL)
@@ -174,10 +179,50 @@ When creating models, you must prevent "floating/detached cubes" and "incorrect 
 1. **Recalculating Origin:** The `origin` of a cube is strictly tied to its `size`. If you ever decide to change the `size` of a cube during brainstorming or generation, you **MUST** recalculate the `origin` (`[Cx - W/2, Cy - H/2, Cz - D/2]`). Failure to do this will cause the cube to detach and float away from the model.
 2. **Rotation Pivots:** If you apply a `rotation` to a cube or a bone, you **MUST** ensure its `pivot` is placed exactly at the intended hinge point (e.g., the edge or joint) relative to the cube's true spatial position. A misaligned pivot will cause the block to swing wildly out of place when rotated.
 
-## 12. SELF-CHECK BEFORE CALLING THE TOOL
+## 12. THE 8.5/10 BENCHMARK — ARCHITECTURAL REALISM STANDARDS
+
+Models scoring 7/10 look like stiff, monolithic toy blocks. To achieve an **8.5/10 or higher**, every model must adhere to these 5 core architectural principles:
+
+### 12.1 Rotational Dynamics (Physical Posturing & Natural Angles)
+- **Zero 100% Axis-Aligned Models:** Never leave an entire object with all rotations at `[0, 0, 0]` when real-world mechanics dictate angles.
+- **Folding Furniture:** Folding tables/chairs must use angled X-legs (`rotation: [±35, 0, 0]` or bone pivots) with horizontal cross-stretchers.
+- **A-Frame Sidewalk Signs:** Must have angled front/back leaning frames (`rotation: [-12.5, 0, 0]`) rather than vertical posts.
+- **Kettles & Thermoses:** Teapot/kettle spouts must tilt outward (`rotation: [0, 0, -50]`); resting wire/aluminum bail handles must lean naturally against the collar or body (`rotation: [-142.5, 0, 0]`).
+- **Open Containers & Stacks:** Open cooler lids must lean backward (`rotation: [20, 0, 0]`); sugarcane stalks or skewers must have varied, slight diagonal tilts (`rotation: [-6, 0, -6.5]`).
+- **Radial Geometry:** Fan cages, umbrella domes, and rounded drums should approximate curves using orthogonal or 45/90 degree rotated framing cubes.
+
+### 12.2 Hollow Cavity Architecture (Never Use Solid Slabs for Containers)
+- Containers (drinking glasses, trash bins, vegetable baskets, styrofoam ice coolers, condiment bowls/trays) **must never be modeled as a single solid box**.
+- Always construct a thin base (`height: 0.5 - 1.0`) plus 4 distinct perimeter wall cuboids (`thickness: 0.5 - 1.5`).
+- Contents inside (tea liquid, ice chunks, lime wedges, crumpled napkins, fresh herbs, raw meat) must sit recessed inside the cavity and be arranged as multiple scattered, varying-size cuboids rather than a flat surface.
+
+### 12.3 Slatted, Mesh & Lattice Geometry (Separated Bars with Air Gaps)
+- Charcoal grill grates, plastic chair backrests, drying racks, and industrial fan cages **must never be a solid plate**.
+- Always decompose them into separate parallel slats/wires (`size: 0.4 to 0.7` width) spaced with regular gaps so players can see the glowing charcoal embers or background through the gaps.
+
+### 12.4 3D Signage & Environmental Storytelling
+- Commercial street carts, food showcases, and stalls must include visual narrative elements:
+  - **3D Lettering / Signage Bone (`text`):** Create relief signage using rotated small bar cubes for letters (e.g. "BÁNH MÌ") on the stall fascia.
+  - **Food & Ingredient Stacks:** Stack baguettes or skewers in staggered pyramids (`[1, 1, 5]`); include prep bowls (`bowl`) with condiment fillings.
+
+### 12.5 Cuboid Budget by Complexity Tier
+- **Tier 1 (Small Table Props - cups, napkins, pipe, ashtray):** 7 to 15 cuboids.
+- **Tier 2 (Furniture & Appliances - chairs, folding tables, fans, stoves):** 14 to 28 cuboids.
+- **Tier 3 (Complex Carts, Stalls, Multi-Tier Displays, BBQs):** **30 to 55 cuboids**. Any complex commercial cart designed with under 30 cuboids is strictly substandard.
+
+### 12.6 Functional Sub-Bone Grouping
+- Do not dump all cubes into `root`.
+- Create logical sub-bones with meaningful pivots (e.g., `text`, `bowl`, `legs_x`, `handle`, `lid`, `skewers`) to allow group rotations and realistic pivot hinging.
+
+## 13. SELF-CHECK BEFORE CALLING THE TOOL
 
 - **Did you change any cube's `size`? If yes, did you mathematically recalculate its `origin`?**
 - Is every `origin` a corner, not a center?
+- Does the model meet the **8.5/10 Benchmark**?
+  - Does it have physical rotational dynamics where appropriate (folding legs, tilted spouts, leaning handles)?
+  - Are hollow containers built with separate walls and hollow cavity?
+  - Are grills and backrests slatted with real air gaps?
+  - Does the cuboid count meet the Tier budget (Tier 3 carts have 30-55 cubes)?
 - Does the first bone equal `root` and does every other bone have an existing parent declared earlier?
 - In block mode: base at Y = 0, nothing outside -15..15 on X and Z, nothing above Y = 30?
 - In entity mode: does each pivot sit on a real joint, and do `visible_bounds` cover the whole model?
@@ -185,3 +230,4 @@ When creating models, you must prevent "floating/detached cubes" and "incorrect 
 - Are intersecting or coplanar cuboids separated with `inflate` of 0.01 or -0.01?
 - With `--texture`: does every cube have a `material` with a valid `#RRGGBB` color and one of `solid`, `noise`, `bordered`, `shaded`? **CRITICAL: NEVER use `noise` for animal fur, hair, or car paint as it creates ugly pixelation. ALWAYS use `shaded` for these to leverage volumetric gradients.** Use `noise` only for dirt, stone, or sand.
 - Are `uv`, `texture_width`, and `texture_height` absent?
+

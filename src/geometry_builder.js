@@ -6,9 +6,9 @@ const STYLES = ["solid", "noise", "bordered", "shaded"];
 const DEFAULT_COLOR = "#8a8a8a";
 const DEFAULT_STYLE = "shaded";
 const BLOCK_LIMITS = [
-  [-15, 15],
-  [0, 30],
-  [-15, 15]
+  [-14.9, 14.9],
+  [0, 29.5],
+  [-14.9, 14.9]
 ];
 const MAX_TEXTURE_SIZE = 4096;
 const MIN_TEXTURE_SIZE = 64;
@@ -575,7 +575,14 @@ function buildGeometry(payload, options) {
     });
   });
 
-  const formatVersion = payload.format_version || FORMAT_VERSION;
+  const defaultFormatVersion = mode === "block" ? "1.12.0" : FORMAT_VERSION;
+  const formatVersion = payload.format_version || defaultFormatVersion;
+
+  if (mode === "block") {
+    bounds.width = Math.max(bounds.width, 2);
+    bounds.height = Math.max(bounds.height, 2);
+    bounds.offset = [0, 1, 0];
+  }
 
   const geometry = {
     format_version: formatVersion,
