@@ -3,6 +3,9 @@ const path = require("path");
 const { PNG } = require("pngjs");
 
 const FALLBACK_COLOR = [138, 138, 138];
+// Must match UV_PADDING in geometry_builder.js so the painter stays inside
+// the allocated atlas cell and never bleeds into the neighbouring cube's region.
+const UV_PADDING = 1;
 
 function hexToRgb(hex) {
   if (typeof hex !== "string") {
@@ -13,6 +16,21 @@ function hexToRgb(hex) {
     return FALLBACK_COLOR.slice();
   }
   return [parseInt(text.slice(0, 2), 16), parseInt(text.slice(2, 4), 16), parseInt(text.slice(4, 6), 16)];
+}
+
+// ---------------------------------------------------------------------------
+// Stable per-cell seed derived from the UV atlas position.
+// Using record.index (global traversal order) caused different colours to
+// appear on the same part if the bone hierarchy changed. Using (u, v) instead
+// makes the seed depend only on WHERE the cell sits in the atlas — stable
+// across any model with the same packing result.
+// ---------------------------------------------------------------------------
+function uvSeed(u, v, faceIndex) {
+  // Simple integer hash: mix u, v, and faceIndex
+  let h = ((u * 73856093) ^ (v * 19349663) ^ (faceIndex * 83492791)) >>> 0;
+  h = Math.imul(h ^ (h >>> 16), 0x45d9f3b) >>> 0;
+  h = Math.imul(h ^ (h >>> 16), 0x45d9f3b) >>> 0;
+  return h ^ (h >>> 16);
 }
 
 function createRng(seed) {
@@ -94,14 +112,33 @@ function paintFace(png, rect, color, shade, style, rng, depth, seed) {
   }
 }
 
+// ---------------------------------------------------------------------------
+// faceLayout — maps a cube's 6 faces onto atlas coordinates.
+//
+// Box UV convention (matches geometry_builder serializeCube):
+//   Atlas cell origin: (u, v)  |  Cell size: (2*(d+w)) × (d+h)
+//
+//   Row 0 (y: v .. v+d-1):
+//     [u+d,       v,   w×d]  → top  (up face)
+//     [u+d+w,     v,   w×d]  → bottom (down face)
+//
+//   Row 1 (y: v+d .. v+d+h-1):
+//     [u,         v+d, d×h]  → east  (right side)
+//     [u+d,       v+d, w×h]  → north (front face)
+//     [u+d+w,     v+d, d×h]  → west  (left side)
+//     [u+2d+w,    v+d, w×h]  → south (back face)
+//
+// `w`, `h`, `d` are CEILED integers (from record.size) so they match
+// the integer-pixel UV offsets the geometry builder wrote into the .geo.json.
+// ---------------------------------------------------------------------------
 function faceLayout(u, v, w, h, d) {
   return [
-    { rect: [u + d, v, w, d], shade: 1.15 },
-    { rect: [u + d + w, v, w, d], shade: 0.65 },
-    { rect: [u, v + d, d, h], shade: 0.85 },
-    { rect: [u + d, v + d, w, h], shade: 1.0 },
-    { rect: [u + d + w, v + d, d, h], shade: 0.85 },
-    { rect: [u + 2 * d + w, v + d, w, h], shade: 0.9 }
+    { rect: [u + d,         v,     w, d], shade: 1.15 }, // top   (up)
+    { rect: [u + d + w,     v,     w, d], shade: 0.65 }, // bottom (down)
+    { rect: [u,             v + d, d, h], shade: 0.85 }, // east  (right)
+    { rect: [u + d,         v + d, w, h], shade: 1.0  }, // north (front)
+    { rect: [u + d + w,     v + d, d, h], shade: 0.85 }, // west  (left)
+    { rect: [u + 2 * d + w, v + d, w, h], shade: 0.9  }  // south (back)
   ];
 }
 
@@ -121,14 +158,19 @@ function paintTexture(options) {
     const material = record.material || {};
     const color = hexToRgb(material.color);
     const style = material.style || "shaded";
+    // UV position is the top-left corner of the atlas cell for this cube.
     const u = record.uv[0];
     const v = record.uv[1];
+    // record.size is [ceil(W), ceil(H), ceil(D)] — matches the geometry builder's
+    // ceiled offsets, so painter and .geo.json always agree on face positions.
     const w = record.size[0];
     const h = record.size[1];
     const d = record.size[2];
 
     faceLayout(u, v, w, h, d).forEach((face, faceIndex) => {
-      const seed = record.index * 7919 + faceIndex * 104729 + 12345;
+      // Seed derived from atlas position (u,v) + face index — stable regardless
+      // of bone traversal order, unlike the old record.index-based seed.
+      const seed = uvSeed(u, v, faceIndex);
       const rng = createRng(seed);
       paintFace(png, face.rect, color, face.shade, style, rng, record.depth || 0, seed);
     });

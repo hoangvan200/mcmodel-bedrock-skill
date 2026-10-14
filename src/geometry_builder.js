@@ -12,6 +12,9 @@ const BLOCK_LIMITS = [
 ];
 const MAX_TEXTURE_SIZE = 4096;
 const MIN_TEXTURE_SIZE = 64;
+// 1-pixel gap between packed UV rects prevents texture bleeding when
+// adjacent cubes sample each other's edge pixels.
+const UV_PADDING = 1;
 const SIGN_VARIANTS = [
   [1, 1],
   [1, -1],
@@ -406,32 +409,75 @@ function resolveVisibleBounds(provided, bones) {
   };
 }
 
-function packRects(rects, size) {
-  const order = rects.map((rect, index) => index);
-  order.sort((a, b) => rects[b].h - rects[a].h || a - b);
 
-  const positions = new Array(rects.length);
-  let x = 0;
-  let y = 0;
-  let shelfHeight = 0;
+// ---------------------------------------------------------------------------
+// Guillotine Bin Packer — replaces the old shelf packer.
+//
+// Strategy: maintains a list of free rectangles. For each rect to place
+// (sorted tallest-first), it finds the best-fit free rect (smallest area
+// that still fits), places the rect there, then splits the free rect into
+// two sub-rects (Guillotine cut: right fragment + bottom fragment).
+// This eliminates wasted shelf rows and prevents UV-region overlaps that
+// caused texture bleeding when one object was split into many cubes.
+//
+// Returns an array of [x, y] positions parallel to `rects`, or null if
+// the rects cannot fit in a `size × size` atlas.
+// ---------------------------------------------------------------------------
+function packRectsGuillotine(rects, size, padding) {
+  const pad = padding || 0;
+  const n = rects.length;
+  // order: tallest rect first (ties broken by widest)
+  const order = rects.map((_, i) => i);
+  order.sort((a, b) => {
+    const dh = (rects[b].h + pad) - (rects[a].h + pad);
+    return dh !== 0 ? dh : (rects[b].w + pad) - (rects[a].w + pad);
+  });
 
-  for (const index of order) {
-    const rect = rects[index];
-    if (rect.w > size || rect.h > size) {
-      return null;
+  const positions = new Array(n);
+
+  // Free rectangles: each is { x, y, w, h }
+  const freeRects = [{ x: 0, y: 0, w: size, h: size }];
+
+  for (const idx of order) {
+    const rw = rects[idx].w + pad;
+    const rh = rects[idx].h + pad;
+
+    if (rw > size || rh > size) {
+      return null; // rect too large for this atlas size
     }
-    if (x + rect.w > size) {
-      y += shelfHeight;
-      x = 0;
-      shelfHeight = 0;
+
+    // Find the free rect with the smallest area that fits rw × rh
+    let bestFit = -1;
+    let bestArea = Infinity;
+    for (let i = 0; i < freeRects.length; i++) {
+      const fr = freeRects[i];
+      if (fr.w >= rw && fr.h >= rh) {
+        const area = fr.w * fr.h;
+        if (area < bestArea) {
+          bestArea = area;
+          bestFit = i;
+        }
+      }
     }
-    if (y + rect.h > size) {
-      return null;
+
+    if (bestFit === -1) {
+      return null; // no free space — need a larger atlas
     }
-    positions[index] = [x, y];
-    x += rect.w;
-    if (rect.h > shelfHeight) {
-      shelfHeight = rect.h;
+
+    const fr = freeRects[bestFit];
+    // Place at top-left of this free rect
+    positions[idx] = [fr.x, fr.y];
+
+    // Guillotine split: right fragment + bottom fragment
+    const rightFrag = { x: fr.x + rw, y: fr.y, w: fr.w - rw, h: rh };
+    const bottomFrag = { x: fr.x, y: fr.y + rh, w: fr.w, h: fr.h - rh };
+
+    freeRects.splice(bestFit, 1);
+    if (rightFrag.w > 0 && rightFrag.h > 0) {
+      freeRects.push(rightFrag);
+    }
+    if (bottomFrag.w > 0 && bottomFrag.h > 0) {
+      freeRects.push(bottomFrag);
     }
   }
 
@@ -451,7 +497,7 @@ function packBoxUv(cubes) {
 
   let size = MIN_TEXTURE_SIZE;
   while (size <= MAX_TEXTURE_SIZE) {
-    const positions = packRects(rects, size);
+    const positions = packRectsGuillotine(rects, size, UV_PADDING);
     if (positions) {
       return { size, positions };
     }
@@ -460,6 +506,7 @@ function packBoxUv(cubes) {
 
   throw new Error("Model needs a texture larger than " + MAX_TEXTURE_SIZE + "x" + MAX_TEXTURE_SIZE + " pixels");
 }
+
 
 function serializeCube(cube, uv) {
   const output = {
@@ -548,15 +595,11 @@ function buildGeometry(payload, options) {
     throw new Error("Payload does not contain any cube with a positive size");
   }
 
-  // Auto-resolve Z-fighting by adding a microscopic translation offset to the origin based on index.
-  // Inflate sometimes fails to prevent Z-fighting in some Bedrock rendering paths if the faces still cross.
-  // A tiny translation guarantees every cube exists on entirely unique spatial planes without changing size.
-  cubes.forEach((cube, index) => {
-    const shift = (index + 1) * 0.005; // 0.005 pixel shift
-    cube.origin[0] += shift;
-    cube.origin[1] += shift;
-    cube.origin[2] += shift;
-  });
+  // Z-fighting is prevented by the AI using inflate: ±0.01 on overlapping
+  // cubes, as instructed in SKILL.md §3 and §13. A blanket per-cube origin
+  // shift is intentionally NOT applied here: it drifts the model spatially
+  // and decouples the origin from the UV atlas positions calculated above,
+  // causing texture allocation errors when one object is split into many cubes.
 
   const bounds = resolveVisibleBounds(payload.visible_bounds, bones);
   const packing = packBoxUv(cubes);
