@@ -3,9 +3,9 @@ const path = require('path');
 const { buildMinecraftAsset } = require('../src/index.js');
 const { packageAddon } = require('../src/addon_builder.js');
 
-// 35 Items: Ẩm Thực & Sinh Hoạt (Vietnam Food & Daily Life)
+// 35 Items: m Thc & Sinh Hot (Vietnam Food & Daily Life)
 const models = [
-  // 1. Bánh mì thịt (banh_mi_thit)
+  // 1. banh_mi_thit
   {
     asset_name: "banh_mi_thit",
     mode: "block",
@@ -26,7 +26,7 @@ const models = [
           { origin: [-4.5, 2.6, -2.8], size: [9, 0.8, 1.8], material: { color: "#81C784", style: "solid" } },
           // Pickled julienned daikon & carrots
           { origin: [-4, 2.8, 0.5], size: [8, 0.8, 2], material: { color: "#FF7043", style: "solid" } },
-          // Cilantro sprigs (ngò rí)
+          // Cilantro sprigs
           { origin: [-3, 3.2, -1], size: [6, 0.8, 2], material: { color: "#388E3C", style: "solid" } },
           // Pate / mayonnaise layer
           { origin: [-4.8, 2, -2], size: [9.6, 0.5, 4], material: { color: "#8D6E63", style: "solid" } }
@@ -35,7 +35,7 @@ const models = [
     ]
   },
 
-  // 2. Bánh mì không (plain_banh_mi)
+  // 2. plain_banh_mi
   {
     asset_name: "plain_banh_mi",
     mode: "block",
@@ -60,7 +60,7 @@ const models = [
     ]
   },
 
-  // 3. Bát phở bò (bowl_of_pho_bo)
+  // 3. bowl_of_pho_bo
   {
     asset_name: "bowl_of_pho_bo",
     mode: "block",
@@ -78,11 +78,11 @@ const models = [
           { origin: [4.8, 1.2, -4.8], size: [1.2, 4.5, 9.6], material: { color: "#FAFAFA", style: "bordered" } },
           // Golden clear beef broth (hollow recessed liquid)
           { origin: [-4.8, 2, -4.8], size: [9.6, 2.5, 9.6], material: { color: "#D7CCC8", style: "shaded" } },
-          // Flat rice noodles (bánh phở)
+          // Flat rice noodles
           { origin: [-4, 3.8, -4], size: [8, 1, 8], material: { color: "#FFFFFF", style: "shaded" } },
-          // Rare beef slices (thịt bò tái)
+          // Rare beef slices
           { origin: [-3.5, 4.6, -3], size: [4, 0.6, 3], material: { color: "#B71C1C", style: "shaded" } },
-          // Well-done brisket (thịt nạm gầu)
+          // Well-done brisket
           { origin: [0, 4.6, -2.5], size: [3.5, 0.6, 3.5], material: { color: "#8D6E63", style: "shaded" } },
           // Scallions & sliced white onions
           { origin: [-2, 4.8, 0.5], size: [4, 0.6, 3], material: { color: "#4CAF50", style: "solid" } },
@@ -94,7 +94,7 @@ const models = [
     ]
   },
 
-  // 4. Bát bún bò Huế (bowl_of_bun_bo_hue)
+  // 4. bowl_of_bun_bo_hue
   {
     asset_name: "bowl_of_bun_bo_hue",
     mode: "block",
@@ -114,11 +114,11 @@ const models = [
           { origin: [-4.8, 2, -4.8], size: [9.6, 2.5, 9.6], material: { color: "#D32F2F", style: "shaded" } },
           // Round thick vermicelli noodles
           { origin: [-4, 3.8, -4], size: [8, 1, 8], material: { color: "#FFFDE7", style: "shaded" } },
-          // Crab sausage ball (chả cua)
+          // Crab sausage ball
           { origin: [-3, 4.6, -3], size: [2.5, 1, 2.5], material: { color: "#FF8A65", style: "shaded" } },
           // Beef shank slice
           { origin: [0.5, 4.6, -3], size: [3.5, 0.6, 3], material: { color: "#5D4037", style: "shaded" } },
-          // Blood curd cube (huyết)
+          // Blood curd cube
           { origin: [-3, 4.6, 0.5], size: [2.5, 1, 2.5], material: { color: "#4A148C", style: "solid" } },
           // Chopped scallions & banana flower
           { origin: [0.5, 4.8, 0.5], size: [3, 0.6, 3], material: { color: "#388E3C", style: "solid" } }
@@ -127,7 +127,7 @@ const models = [
     ]
   },
 
-  // 5. Hộp xôi xéo (xoi_xeo_box)
+  // 5. xoi_xeo_box
   {
     asset_name: "xoi_xeo_box",
     mode: "block",
@@ -137,25 +137,25 @@ const models = [
         name: "root",
         pivot: [0, 0, 0],
         cubes: [
-          // Banana leaf wrapper base (lá chuối tươi)
+          // Banana leaf wrapper base
           { origin: [-5, 0, -5], size: [10, 1, 10], material: { color: "#2E7D32", style: "bordered" } },
           // Folded angled leaf flaps on sides
           { origin: [-5.5, 0.8, -4.5], size: [1, 2.5, 9], pivot: [-5, 1, 0], rotation: [0, 0, 15], material: { color: "#1B5E20", style: "solid" } },
           { origin: [4.5, 0.8, -4.5], size: [1, 2.5, 9], pivot: [5, 1, 0], rotation: [0, 0, -15], material: { color: "#1B5E20", style: "solid" } },
-          // Golden turmeric sticky rice (xôi nếp vàng)
+          // Golden turmeric sticky rice
           { origin: [-4.2, 1, -4.2], size: [8.4, 2, 8.4], material: { color: "#FDD835", style: "shaded" } },
-          // Sliced mung bean paste sheets (đậu xanh bào)
+          // Sliced mung bean paste sheets
           { origin: [-3.5, 2.8, -3.5], size: [7, 0.8, 7], material: { color: "#FFEE58", style: "shaded" } },
-          // Crispy fried shallots (hành phi vàng giòn)
+          // Crispy fried shallots
           { origin: [-2.5, 3.5, -2.5], size: [5, 0.6, 5], material: { color: "#795548", style: "solid" } },
-          // Liquid chicken/pork rendered fat drizzle (mỡ rưới)
+          // Liquid chicken/pork rendered fat drizzle
           { origin: [-3, 3.4, -1], size: [6, 0.4, 2], material: { color: "#FFA000", style: "solid" } }
         ]
       }
     ]
   },
 
-  // 6. Bánh bao (banh_bao)
+  // 6. banh_bao
   {
     asset_name: "banh_bao",
     mode: "block",
@@ -173,7 +173,7 @@ const models = [
           // Tapered upper bun dome
           { origin: [-3, 3.7, -3], size: [6, 2, 6], material: { color: "#F5F5F5", style: "shaded" } },
           { origin: [-3, 3.7, -3], size: [6, 2, 6], pivot: [0, 4.5, 0], rotation: [0, 45, 0], material: { color: "#F5F5F5", style: "shaded" } },
-          // Top pleated spiral knot (núm xoắn bánh bao)
+          // Top pleated spiral knot
           { origin: [-1.2, 5.6, -1.2], size: [2.4, 1.2, 2.4], material: { color: "#EEEEEE", style: "solid" } },
           // Red dot food coloring spot on top
           { origin: [-0.6, 6.7, -0.6], size: [1.2, 0.3, 1.2], material: { color: "#D32F2F", style: "solid" } }
@@ -182,7 +182,7 @@ const models = [
     ]
   },
 
-  // 7. Bánh giò (banh_gio)
+  // 7. banh_gio
   {
     asset_name: "banh_gio",
     mode: "block",
@@ -197,7 +197,7 @@ const models = [
           { origin: [-3.5, 2.5, -3.5], size: [7, 2.5, 7], material: { color: "#2E7D32", style: "bordered" } },
           { origin: [-2.5, 5, -2.5], size: [5, 2.5, 5], material: { color: "#33691E", style: "bordered" } },
           { origin: [-1.2, 7.5, -1.2], size: [2.4, 2, 2.4], material: { color: "#1B5E20", style: "solid" } },
-          // Split bamboo tying strings (lạt tre buộc chéo)
+          // Split bamboo tying strings
           { origin: [-4.7, 1.5, -0.6], size: [9.4, 0.6, 1.2], material: { color: "#D7CCC8", style: "solid" } },
           { origin: [-0.6, 1.5, -4.7], size: [1.2, 0.6, 9.4], material: { color: "#D7CCC8", style: "solid" } },
           { origin: [-3.7, 4, -0.6], size: [7.4, 0.6, 1.2], material: { color: "#D7CCC8", style: "solid" } }
@@ -206,7 +206,7 @@ const models = [
     ]
   },
 
-  // 8. Xiên nướng heo (pork_skewer)
+  // 8. pork_skewer
   {
     asset_name: "pork_skewer",
     mode: "block",
@@ -230,7 +230,7 @@ const models = [
     ]
   },
 
-  // 9. Xiên cá viên (fish_ball_skewer)
+  // 9. fish_ball_skewer
   {
     asset_name: "fish_ball_skewer",
     mode: "block",
@@ -254,7 +254,7 @@ const models = [
     ]
   },
 
-  // 10. Xiên bò viên (beef_ball_skewer)
+  // 10. beef_ball_skewer
   {
     asset_name: "beef_ball_skewer",
     mode: "block",
@@ -278,7 +278,7 @@ const models = [
     ]
   },
 
-  // 11. Xúc xích nướng (grilled_sausage)
+  // 11. grilled_sausage
   {
     asset_name: "grilled_sausage",
     mode: "block",
@@ -301,7 +301,7 @@ const models = [
     ]
   },
 
-  // 12. Ngô nướng (grilled_corn)
+  // 12. grilled_corn
   {
     asset_name: "grilled_corn",
     mode: "block",
@@ -317,17 +317,17 @@ const models = [
           { origin: [-2, 3, -2], size: [4, 11, 4], material: { color: "#FDD835", style: "bordered" } },
           // Tapered top end
           { origin: [-1.5, 14, -1.5], size: [3, 1.5, 3], material: { color: "#FBC02D", style: "solid" } },
-          // Charred grill spots (than hoa cháy cạnh)
+          // Charred grill spots
           { origin: [-2.2, 5, -1], size: [0.4, 2, 2], material: { color: "#3E2723", style: "solid" } },
           { origin: [1.8, 8, -1], size: [0.4, 2.5, 2], material: { color: "#3E2723", style: "solid" } },
-          // Scallion oil garnish (mỡ hành thơm)
+          // Scallion oil garnish
           { origin: [-1, 7, -2.2], size: [2, 4, 0.4], material: { color: "#2E7D32", style: "solid" } }
         ]
       }
     ]
   },
 
-  // 13. Khoai lang nướng (grilled_sweet_potato)
+  // 13. grilled_sweet_potato
   {
     asset_name: "grilled_sweet_potato",
     mode: "block",
@@ -349,7 +349,7 @@ const models = [
     ]
   },
 
-  // 14. Bánh tráng nướng (grilled_rice_paper)
+  // 14. grilled_rice_paper
   {
     asset_name: "grilled_rice_paper",
     mode: "block",
@@ -366,7 +366,7 @@ const models = [
           { origin: [-5, 0.8, -5], size: [10, 0.6, 10], material: { color: "#FBC02D", style: "shaded" } },
           // Scallion greens
           { origin: [-4.5, 1.4, -4.5], size: [9, 0.4, 9], material: { color: "#388E3C", style: "solid" } },
-          // Dried baby shrimp (tép khô đỏ)
+          // Dried baby shrimp
           { origin: [-3.5, 1.7, -3.5], size: [7, 0.4, 7], material: { color: "#E64A19", style: "solid" } },
           // Zigzag chili sauce & mayonnaise drizzle
           { origin: [-5, 2, -1], size: [10, 0.4, 2], material: { color: "#D32F2F", style: "solid" } }
@@ -375,7 +375,7 @@ const models = [
     ]
   },
 
-  // 15. Trứng vịt lộn (balut)
+  // 15. balut
   {
     asset_name: "balut",
     mode: "block",
@@ -392,7 +392,7 @@ const models = [
           { origin: [-2.5, 2.5, -2.5], size: [5, 4.5, 5], material: { color: "#CFD8DC", style: "shaded" } },
           // Cracked shell top opening
           { origin: [-2, 7, -2], size: [4, 1, 4], material: { color: "#B0BEC5", style: "solid" } },
-          // Side sprig of Vietnamese coriander (rau răm)
+          // Side sprig of Vietnamese coriander
           { origin: [2.5, 0.2, -1], size: [3, 1.2, 2], pivot: [2.5, 0.2, 0], rotation: [0, 0, 15], material: { color: "#2E7D32", style: "solid" } },
           // Small dish of salt-pepper-lime
           { origin: [-4.5, 0, 2], size: [2.5, 0.8, 2.5], material: { color: "#FAFAFA", style: "bordered" } },
@@ -402,7 +402,7 @@ const models = [
     ]
   },
 
-  // 16. Cốc trà đá (iced_tea_glass)
+  // 16. iced_tea_glass
   {
     asset_name: "iced_tea_glass",
     mode: "block",
@@ -429,7 +429,7 @@ const models = [
     ]
   },
 
-  // 17. Cốc nhân trần (nhan_tran_glass)
+  // 17. nhan_tran_glass
   {
     asset_name: "nhan_tran_glass",
     mode: "block",
@@ -455,7 +455,7 @@ const models = [
     ]
   },
 
-  // 18. Cốc nước mía (sugarcane_juice_glass)
+  // 18. sugarcane_juice_glass
   {
     asset_name: "sugarcane_juice_glass",
     mode: "block",
@@ -475,7 +475,7 @@ const models = [
           { origin: [-2.6, 1, -2.6], size: [5.2, 6.5, 5.2], material: { color: "#9CCC65", style: "shaded" } },
           // White frothy foam top
           { origin: [-2.6, 7.5, -2.6], size: [5.2, 1.2, 5.2], material: { color: "#DCEDC8", style: "solid" } },
-          // Floating calamansi/kumquat slice (lát quất)
+          // Floating calamansi/kumquat slice
           { origin: [-1.5, 7.8, -1.5], size: [2, 0.5, 2], material: { color: "#FFB300", style: "solid" } },
           // Tilted red drinking straw (rotation: [15, 0, -10])
           { origin: [-0.4, 2, -0.4], size: [0.8, 10, 0.8], pivot: [0, 5, 0], rotation: [15, 0, -10], material: { color: "#D32F2F", style: "solid" } }
@@ -484,7 +484,7 @@ const models = [
     ]
   },
 
-  // 19. Ly cà phê đen đá (iced_black_coffee)
+  // 19. iced_black_coffee
   {
     asset_name: "iced_black_coffee",
     mode: "block",
@@ -512,7 +512,7 @@ const models = [
     ]
   },
 
-  // 20. Ly cà phê sữa đá (iced_milk_coffee)
+  // 20. iced_milk_coffee
   {
     asset_name: "iced_milk_coffee",
     mode: "block",
@@ -528,7 +528,7 @@ const models = [
           { origin: [-3.5, 1, 2.7], size: [7, 7.5, 0.8], material: { color: "#B2EBF2", style: "bordered" } },
           { origin: [-3.5, 1, -2.7], size: [0.8, 7.5, 5.4], material: { color: "#B2EBF2", style: "bordered" } },
           { origin: [2.7, 1, -2.7], size: [0.8, 7.5, 5.4], material: { color: "#B2EBF2", style: "bordered" } },
-          // Condensed milk bottom layer (sữa đặc)
+          // Condensed milk bottom layer
           { origin: [-2.6, 1, -2.6], size: [5.2, 1.8, 5.2], material: { color: "#FFF9C4", style: "solid" } },
           // Coffee mixed layer on top
           { origin: [-2.6, 2.8, -2.6], size: [5.2, 4, 5.2], material: { color: "#3E2723", style: "shaded" } },
@@ -542,7 +542,7 @@ const models = [
     ]
   },
 
-  // 21. Bạc xỉu (bac_xiu)
+  // 21. bac_xiu
   {
     asset_name: "bac_xiu",
     mode: "block",
@@ -560,7 +560,7 @@ const models = [
           { origin: [2.7, 1, -2.7], size: [0.8, 7.5, 5.4], material: { color: "#B2EBF2", style: "bordered" } },
           // Layer 1: Condensed milk bottom
           { origin: [-2.6, 1, -2.6], size: [5.2, 1.8, 5.2], material: { color: "#FFF9C4", style: "solid" } },
-          // Layer 2: Fresh milk middle (sữa tươi trắng)
+          // Layer 2: Fresh milk middle
           { origin: [-2.6, 2.8, -2.6], size: [5.2, 2.5, 5.2], material: { color: "#FFFFFF", style: "solid" } },
           // Layer 3: Coffee foam top
           { origin: [-2.6, 5.3, -2.6], size: [5.2, 1.8, 5.2], material: { color: "#5D4037", style: "shaded" } },
@@ -573,7 +573,7 @@ const models = [
     ]
   },
 
-  // 22. Ly trà sữa trân châu (bubble_milk_tea)
+  // 22. bubble_milk_tea
   {
     asset_name: "bubble_milk_tea",
     mode: "block",
@@ -589,7 +589,7 @@ const models = [
           { origin: [-3.8, 8.5, -3.8], size: [7.6, 0.8, 7.6], material: { color: "#E91E63", style: "bordered" } },
           // Creamy caramel milk tea liquid
           { origin: [-3.2, 1.8, -3.2], size: [6.4, 6.5, 6.4], material: { color: "#D7CCC8", style: "shaded" } },
-          // Chewy black boba tapioca pearls (trân châu đen gom đáy ly)
+          // Chewy black boba tapioca pearls
           { origin: [-3, 0.4, -3], size: [6, 1.8, 6], material: { color: "#212121", style: "shaded" } },
           // Wide boba straw pierced through lid
           { origin: [-0.6, 1, -0.6], size: [1.2, 10.5, 1.2], pivot: [0, 6, 0], rotation: [10, 0, -8], material: { color: "#FFB300", style: "solid" } }
@@ -598,7 +598,7 @@ const models = [
     ]
   },
 
-  // 23. Tờ 10.000 VNĐ (vnd_10000)
+  // 23. vnd_10000
   {
     asset_name: "vnd_10000",
     mode: "block",
@@ -619,7 +619,7 @@ const models = [
     ]
   },
 
-  // 24. Tờ 20.000 VNĐ (vnd_20000)
+  // 24. vnd_20000
   {
     asset_name: "vnd_20000",
     mode: "block",
@@ -633,14 +633,14 @@ const models = [
           { origin: [-6.5, 0, -3.5], size: [13, 0.2, 7], material: { color: "#1E88E5", style: "bordered" } },
           // Transparent window
           { origin: [3.5, 0.2, -1.5], size: [2, 0.1, 3], material: { color: "#ECEFF1", style: "solid" } },
-          // Chùa Cầu motif patch
+          // Cha Cu motif patch
           { origin: [-5.5, 0.2, -2], size: [3, 0.1, 4], material: { color: "#0D47A1", style: "solid" } }
         ]
       }
     ]
   },
 
-  // 25. Tờ 50.000 VNĐ (vnd_50000)
+  // 25. vnd_50000
   {
     asset_name: "vnd_50000",
     mode: "block",
@@ -654,14 +654,14 @@ const models = [
           { origin: [-6.5, 0, -3.5], size: [13, 0.2, 7], material: { color: "#AB47BC", style: "bordered" } },
           // Transparent window
           { origin: [3.5, 0.2, -1.5], size: [2, 0.1, 3], material: { color: "#ECEFF1", style: "solid" } },
-          // Nghênh Lương Đình motif patch
+          // Nghnh Lng nh motif patch
           { origin: [-5.5, 0.2, -2], size: [3, 0.1, 4], material: { color: "#7B1FA2", style: "solid" } }
         ]
       }
     ]
   },
 
-  // 26. Tờ 100.000 VNĐ (vnd_100000)
+  // 26. vnd_100000
   {
     asset_name: "vnd_100000",
     mode: "block",
@@ -675,14 +675,14 @@ const models = [
           { origin: [-6.5, 0, -3.5], size: [13, 0.2, 7], material: { color: "#2E7D32", style: "bordered" } },
           // Transparent window
           { origin: [3.5, 0.2, -1.5], size: [2, 0.1, 3], material: { color: "#ECEFF1", style: "solid" } },
-          // Văn Miếu motif patch
+          // Vn Miu motif patch
           { origin: [-5.5, 0.2, -2], size: [3, 0.1, 4], material: { color: "#1B5E20", style: "solid" } }
         ]
       }
     ]
   },
 
-  // 27. Tờ 200.000 VNĐ (vnd_200000)
+  // 27. vnd_200000
   {
     asset_name: "vnd_200000",
     mode: "block",
@@ -696,14 +696,14 @@ const models = [
           { origin: [-6.5, 0, -3.5], size: [13, 0.2, 7], material: { color: "#C2185B", style: "bordered" } },
           // Transparent window
           { origin: [3.5, 0.2, -1.5], size: [2, 0.1, 3], material: { color: "#ECEFF1", style: "solid" } },
-          // Vịnh Hạ Long motif patch
+          // Vnh H Long motif patch
           { origin: [-5.5, 0.2, -2], size: [3, 0.1, 4], material: { color: "#880E4F", style: "solid" } }
         ]
       }
     ]
   },
 
-  // 28. Tờ 500.000 VNĐ (vnd_500000)
+  // 28. vnd_500000
   {
     asset_name: "vnd_500000",
     mode: "block",
@@ -717,14 +717,14 @@ const models = [
           { origin: [-6.5, 0, -3.5], size: [13, 0.2, 7], material: { color: "#00838F", style: "bordered" } },
           // Transparent window
           { origin: [3.5, 0.2, -1.5], size: [2, 0.1, 3], material: { color: "#ECEFF1", style: "solid" } },
-          // Kim Liên motif patch
+          // Kim Lin motif patch
           { origin: [-5.5, 0.2, -2], size: [3, 0.1, 4], material: { color: "#006064", style: "solid" } }
         ]
       }
     ]
   },
 
-  // 29. Tờ vé số (lottery_ticket)
+  // 29. lottery_ticket
   {
     asset_name: "lottery_ticket",
     mode: "block",
@@ -736,7 +736,7 @@ const models = [
         cubes: [
           // Rectangular lottery ticket paper
           { origin: [-6, 0, -3.5], size: [12, 0.2, 7], material: { color: "#FFF9C4", style: "bordered" } },
-          // Top colorful header banner (XỔ SỐ KIẾN THIẾT)
+          // Top colorful header banner (X S KIN THIT)
           { origin: [-5.5, 0.2, 1.5], size: [11, 0.1, 1.6], material: { color: "#D32F2F", style: "solid" } },
           // 6-digit lucky numbers block in bold red
           { origin: [-4, 0.2, -1], size: [8, 0.1, 1.8], material: { color: "#C62828", style: "solid" } },
@@ -747,7 +747,7 @@ const models = [
     ]
   },
 
-  // 30. Điếu thuốc lá (cigarette)
+  // 30. cigarette
   {
     asset_name: "cigarette",
     mode: "block",
@@ -770,7 +770,7 @@ const models = [
     ]
   },
 
-  // 31. Bật lửa gas (gas_lighter)
+  // 31. gas_lighter
   {
     asset_name: "gas_lighter",
     mode: "block",
@@ -793,7 +793,7 @@ const models = [
     ]
   },
 
-  // 32. Chổi đót (broom)
+  // 32. broom
   {
     asset_name: "broom",
     mode: "block",
@@ -817,7 +817,7 @@ const models = [
     ]
   },
 
-  // 33. Chổi nhựa (plastic_broom)
+  // 33. plastic_broom
   {
     asset_name: "plastic_broom",
     mode: "block",
@@ -838,7 +838,7 @@ const models = [
     ]
   },
 
-  // 34. Túi ni lông đen (black_plastic_bag)
+  // 34. black_plastic_bag
   {
     asset_name: "black_plastic_bag",
     mode: "block",
@@ -860,7 +860,7 @@ const models = [
     ]
   },
 
-  // 35. Ví da nam (mens_leather_wallet)
+  // 35. mens_leather_wallet
   {
     asset_name: "mens_leather_wallet",
     mode: "block",

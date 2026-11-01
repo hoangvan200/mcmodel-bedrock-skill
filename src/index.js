@@ -4,6 +4,7 @@ const { parseCommand } = require("./command_parser");
 const { buildGeometry, saveGeometry } = require("./geometry_builder");
 const { paintTexture, saveTexture } = require("./texture_painter");
 const { createAddon } = require("./addon_builder");
+const { resolveModelOutputDir } = require("./output_manager");
 const skillManifest = require("../skill_manifest.json");
 
 const SAMPLE_PAYLOAD_PATH = path.join(__dirname, "..", "examples", "sample_payload.json");
@@ -16,11 +17,29 @@ function buildMinecraftAsset(input, options) {
     payload = JSON.parse(payload);
   }
 
-  const outputDir = path.resolve(settings.outputDir || path.join(process.cwd(), "output"));
   const built = buildGeometry(payload, {
     mode: settings.mode,
     generateTexture: settings.generateTexture
   });
+
+  let outputDir;
+  let version = null;
+  const rawOut = settings.outputDir ? path.resolve(settings.outputDir) : null;
+
+  if (rawOut && (rawOut.endsWith(built.assetName) || rawOut.match(new RegExp(`${built.assetName}_v\\d+$`, "i")))) {
+    outputDir = rawOut;
+    const vMatch = rawOut.match(/_v(\d+)$/i);
+    version = vMatch ? `v${vMatch[1]}` : "v1";
+    fs.mkdirSync(outputDir, { recursive: true });
+  } else {
+    const baseRoot = rawOut || path.join(process.cwd(), "output");
+    const resolved = resolveModelOutputDir(baseRoot, built.assetName, {
+      isRevision: Boolean(settings.is_revision || settings.isRevision || payload.is_revision || payload.isRevision),
+      explicitVersion: settings.version || payload.version
+    });
+    outputDir = resolved.dirPath;
+    version = resolved.version;
+  }
 
   const geoPath = saveGeometry(built.geometry, outputDir, built.assetName);
   let texturePath = null;
@@ -50,6 +69,8 @@ function buildMinecraftAsset(input, options) {
 
   return {
     assetName: built.assetName,
+    version,
+    outputDirectory: outputDir,
     identifier: description.identifier,
     mode: built.mode,
     geoPath,
@@ -89,6 +110,8 @@ function runCli(args) {
   const result = buildMinecraftAsset(payload, { outputDir });
 
   console.log("asset:       " + result.assetName);
+  console.log("version:     " + result.version);
+  console.log("directory:   " + result.outputDirectory);
   console.log("mode:        " + result.mode);
   console.log("bones:       " + result.boneCount);
   console.log("cubes:       " + result.cubeCount);

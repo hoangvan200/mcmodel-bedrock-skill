@@ -5,7 +5,7 @@ const { packageAddon } = require('../src/addon_builder.js');
 
 // 30 Vietnam Urban Traffic & Infrastructure Models
 const models = [
-  // 1. Cột điện bê tông vuông (square_concrete_utility_pole) - Entity (Height ~64 units / 4 blocks)
+  // 1. square_concrete_utility_pole
   {
     asset_name: "square_concrete_utility_pole",
     mode: "entity",
@@ -37,7 +37,7 @@ const models = [
         cubes: [
           // Tapered middle concrete trunk
           { origin: [-3, 16, -3], size: [6, 24, 6], material: { color: "#828282", style: "shaded" } },
-          // Staggered climbing steps (thang trèo cột)
+          // Staggered climbing steps
           { origin: [3, 20, -0.75], size: [2.5, 0.8, 1.5], material: { color: "#37474F", style: "solid" } },
           { origin: [-5.5, 26, -0.75], size: [2.5, 0.8, 1.5], material: { color: "#37474F", style: "solid" } },
           { origin: [3, 32, -0.75], size: [2.5, 0.8, 1.5], material: { color: "#37474F", style: "solid" } },
@@ -64,12 +64,12 @@ const models = [
         parent: "pole_top",
         pivot: [0, 52, 0],
         cubes: [
-          // Lower steel crossarm (xà thép đỡ sứ)
+          // Lower steel crossarm
           { origin: [-15, 52, -1.5], size: [30, 2, 3], material: { color: "#455A64", style: "bordered" } },
-          // Diagonal angle iron braces (thanh giằng chéo)
+          // Diagonal angle iron braces
           { origin: [-9, 48.5, -0.5], size: [8, 1, 1], pivot: [-2.5, 47, 0], rotation: [0, 0, 32], material: { color: "#37474F", style: "solid" } },
           { origin: [1, 48.5, -0.5], size: [8, 1, 1], pivot: [2.5, 47, 0], rotation: [0, 0, -32], material: { color: "#37474F", style: "solid" } },
-          // Porcelain pin insulators (sứ cách điện)
+          // Porcelain pin insulators
           { origin: [-14, 54, -1], size: [2, 3.5, 2], material: { color: "#E0E0E0", style: "shaded" } },
           { origin: [-8, 54, -1], size: [2, 3.5, 2], material: { color: "#5D4037", style: "shaded" } },
           { origin: [6, 54, -1], size: [2, 3.5, 2], material: { color: "#5D4037", style: "shaded" } },
@@ -94,7 +94,7 @@ const models = [
     ]
   },
 
-  // 2. Cột điện bê tông tròn (round_concrete_utility_pole) - Entity (Height ~66 units / 4.1 blocks)
+  // 2. round_concrete_utility_pole
   {
     asset_name: "round_concrete_utility_pole",
     mode: "entity",
@@ -136,7 +136,7 @@ const models = [
         parent: "pole_mid",
         pivot: [3.5, 28, 0],
         cubes: [
-          // Pole-mounted transformer drum (máy biến áp treo cột)
+          // Pole-mounted transformer drum
           { origin: [3.2, 26, -3.5], size: [6, 9, 7], material: { color: "#546E7A", style: "bordered" } },
           // Cooling radiator fins
           { origin: [9.2, 27, -3], size: [0.8, 7, 6], material: { color: "#37474F", style: "solid" } },
@@ -156,7 +156,7 @@ const models = [
           { origin: [-2.5, 42, -2.5], size: [5, 24, 5], pivot: [0, 54, 0], rotation: [0, 45, 0], material: { color: "#A7B6BE", style: "shaded" } },
           // Steel crossarm
           { origin: [-16, 56, -1.5], size: [32, 2.5, 3], material: { color: "#37474F", style: "bordered" } },
-          // Suspension bell insulators (chuỗi sứ treo)
+          // Suspension bell insulators
           { origin: [-14.5, 52, -1], size: [2, 4, 2], material: { color: "#D7CCC8", style: "shaded" } },
           { origin: [-7.5, 52, -1], size: [2, 4, 2], material: { color: "#D7CCC8", style: "shaded" } },
           { origin: [5.5, 52, -1], size: [2, 4, 2], material: { color: "#D7CCC8", style: "shaded" } },
@@ -168,7 +168,7 @@ const models = [
     ]
   },
 
-  // 3. Dây cáp điện rối (bám cột) (tangled_cables_on_pole) - Block
+  // 3. Dy cp in ri (bm ct) (tangled_cables_on_pole) - Block
   {
     asset_name: "tangled_cables_on_pole",
     mode: "block",
@@ -178,13 +178,13 @@ const models = [
         name: "root",
         pivot: [0, 0, 0],
         cubes: [
-          // Mounting bracket collar (ôm cột)
+          // Mounting bracket collar
           { origin: [-4, 6, 5], size: [8, 3, 2.5], material: { color: "#37474F", style: "bordered" } },
-          // Fiber optic splice enclosure cylinder (hộp măng xông cáp quang)
+          // Fiber optic splice enclosure cylinder
           { origin: [-5.5, 8, 3.5], size: [11, 3.5, 3.5], material: { color: "#212121", style: "shaded" } },
           // Main bundled central cable core
           { origin: [-6, 5, 2], size: [12, 4, 3], material: { color: "#1E1E1E", style: "shaded" } },
-          // Cable zip ties / binding loops (lạt thít nhựa trắng/vàng)
+          // Cable zip ties / binding loops
           { origin: [-3, 4.8, 1.8], size: [1, 4.4, 3.4], material: { color: "#EEEEEE", style: "solid" } },
           { origin: [2, 4.8, 1.8], size: [1, 4.4, 3.4], material: { color: "#EEEEEE", style: "solid" } },
           // Coiled cable loops hanging down with rotational angles (8.5/10 standard)
@@ -201,7 +201,7 @@ const models = [
     ]
   },
 
-  // 4. Dây điện chăng ngang (nối 2 cột) (hanging_power_lines) - Block
+  // 4. Dy in chng ngang (ni 2 ct) (hanging_power_lines) - Block
   {
     asset_name: "hanging_power_lines",
     mode: "block",
@@ -236,7 +236,7 @@ const models = [
     ]
   },
 
-  // 5. Công tơ điện (gắn cột) (electric_meter_box) - Block
+  // 5. Cng t in (gn ct) (electric_meter_box) - Block
   {
     asset_name: "electric_meter_box",
     mode: "block",
@@ -272,7 +272,7 @@ const models = [
     ]
   },
 
-  // 6. Trạm biến áp vỉa hè (sidewalk_transformer_station) - Block
+  // 6. sidewalk_transformer_station
   {
     asset_name: "sidewalk_transformer_station",
     mode: "block",
@@ -309,7 +309,7 @@ const models = [
     ]
   },
 
-  // 7. Đèn đường LED cao áp (led_street_light) - Entity (Height ~72 units / 4.5 blocks)
+  // 7. led_street_light
   {
     asset_name: "led_street_light",
     mode: "entity",
@@ -371,7 +371,7 @@ const models = [
     ]
   },
 
-  // 8. Đèn đường sợi đốt cổ điển (vintage_incandescent_street_light) - Entity (Height ~64 units / 4 blocks)
+  // 8. vintage_incandescent_street_light
   {
     asset_name: "vintage_incandescent_street_light",
     mode: "entity",
@@ -434,7 +434,7 @@ const models = [
     ]
   },
 
-  // 9. Cột đèn tín hiệu giao thông (traffic_light_pole) - Entity (Height ~62 units / 3.8 blocks)
+  // 9. traffic_light_pole
   {
     asset_name: "traffic_light_pole",
     mode: "entity",
@@ -484,7 +484,7 @@ const models = [
           { origin: [-2, 40.5, -10], size: [4, 4, 0.8], material: { color: "#FB8C00", style: "shaded" } },
           // Green light (bottom)
           { origin: [-2, 35.5, -10], size: [4, 4, 0.8], material: { color: "#43A047", style: "shaded" } },
-          // 3 angled sun visors / hoods (chóp che nắng)
+          // 3 angled sun visors / hoods
           { origin: [-2.5, 49.5, -12], size: [5, 1, 2.5], pivot: [0, 49.5, -10], rotation: [-22, 0, 0], material: { color: "#212121", style: "solid" } },
           { origin: [-2.5, 44.5, -12], size: [5, 1, 2.5], pivot: [0, 44.5, -10], rotation: [-22, 0, 0], material: { color: "#212121", style: "solid" } },
           { origin: [-2.5, 39.5, -12], size: [5, 1, 2.5], pivot: [0, 39.5, -10], rotation: [-22, 0, 0], material: { color: "#212121", style: "solid" } }
@@ -493,7 +493,7 @@ const models = [
     ]
   },
 
-  // 10. Biển báo cấm rẽ (no_turn_sign) - Block
+  // 10. no_turn_sign
   {
     asset_name: "no_turn_sign",
     mode: "block",
@@ -522,7 +522,7 @@ const models = [
     ]
   },
 
-  // 11. Biển báo tốc độ (50) (speed_limit_sign) - Block
+  // 11. 50
   {
     asset_name: "speed_limit_sign",
     mode: "block",
@@ -557,7 +557,7 @@ const models = [
     ]
   },
 
-  // 12. Biển báo đường một chiều (one_way_street_sign) - Block
+  // 12. one_way_street_sign
   {
     asset_name: "one_way_street_sign",
     mode: "block",
@@ -585,7 +585,7 @@ const models = [
     ]
   },
 
-  // 13. Biển báo cấm dừng đỗ (no_parking_sign) - Block
+  // 13. no_parking_sign
   {
     asset_name: "no_parking_sign",
     mode: "block",
@@ -611,7 +611,7 @@ const models = [
     ]
   },
 
-  // 14. Gờ giảm tốc (màu vàng/đen) (speed_bump) - Block
+  // 14. G gim tc (mu vng/en) (speed_bump) - Block
   {
     asset_name: "speed_bump",
     mode: "block",
@@ -643,7 +643,7 @@ const models = [
     ]
   },
 
-  // 15. Dải phân cách bê tông (con lươn) (concrete_median_barrier) - Block
+  // 15. Di phn cch b tng (con ln) (concrete_median_barrier) - Block
   {
     asset_name: "concrete_median_barrier",
     mode: "block",
@@ -672,7 +672,7 @@ const models = [
     ]
   },
 
-  // 16. Cọc tiêu phản quang di động (traffic_cone) - Block
+  // 16. traffic_cone
   {
     asset_name: "traffic_cone",
     mode: "block",
@@ -701,7 +701,7 @@ const models = [
     ]
   },
 
-  // 17. Nắp cống tròn sắt tây (round_iron_manhole_cover) - Block
+  // 17. round_iron_manhole_cover
   {
     asset_name: "round_iron_manhole_cover",
     mode: "block",
@@ -719,7 +719,7 @@ const models = [
           // Center raised waffle tread disc
           { origin: [-5, 1.6, -5], size: [10, 0.4, 10], material: { color: "#455A64", style: "shaded" } },
           { origin: [-5, 1.6, -5], size: [10, 0.4, 10], pivot: [0, 1.8, 0], rotation: [0, 45, 0], material: { color: "#455A64", style: "shaded" } },
-          // Two pick / lifting key slots (lỗ móc cẩu nắp cống)
+          // Two pick / lifting key slots
           { origin: [-3, 1.5, -0.6], size: [1.2, 0.6, 1.2], material: { color: "#111111", style: "solid" } },
           { origin: [1.8, 1.5, -0.6], size: [1.2, 0.6, 1.2], material: { color: "#111111", style: "solid" } }
         ]
@@ -727,7 +727,7 @@ const models = [
     ]
   },
 
-  // 18. Nắp cống vuông (square_manhole_cover) - Block
+  // 18. square_manhole_cover
   {
     asset_name: "square_manhole_cover",
     mode: "block",
@@ -741,7 +741,7 @@ const models = [
           { origin: [-7.5, 0, -7.5], size: [15, 1.5, 15], material: { color: "#37474F", style: "bordered" } },
           // Recessed seating ledge
           { origin: [-6.5, 1, -6.5], size: [13, 0.6, 13], material: { color: "#212121", style: "solid" } },
-          // Split double triangular hatch covers (nắp cống tam giác vát đôi)
+          // Split double triangular hatch covers
           { origin: [-6, 1.2, -6], size: [12, 0.8, 5.8], material: { color: "#455A64", style: "bordered" } },
           { origin: [-6, 1.2, 0.2], size: [12, 0.8, 5.8], material: { color: "#455A64", style: "bordered" } },
           // Center diagonal hinge / separation groove
@@ -757,7 +757,7 @@ const models = [
     ]
   },
 
-  // 19. Lưới chắn rác nắp cống (drain_grate) - Block (Slatted grate rule with air gaps!)
+  // 19. drain_grate
   {
     asset_name: "drain_grate",
     mode: "block",
@@ -787,7 +787,7 @@ const models = [
     ]
   },
 
-  // 20. Trụ nước cứu hỏa (đỏ) (red_fire_hydrant) - Block (Height 16px)
+  // 20. Tr nc cu ha () (red_fire_hydrant) - Block (Height 16px)
   {
     asset_name: "red_fire_hydrant",
     mode: "block",
@@ -821,7 +821,7 @@ const models = [
     ]
   },
 
-  // 21. Bốt điện thoại công cộng (cũ) (old_public_telephone_booth) - Block (Height ~28px)
+  // 21. Bt in thoi cng cng (c) (old_public_telephone_booth) - Block (Height ~28px)
   {
     asset_name: "old_public_telephone_booth",
     mode: "block",
@@ -861,7 +861,7 @@ const models = [
     ]
   },
 
-  // 22. Gạch lát vỉa hè (block lục giác đỏ/xanh) (hexagonal_paving_block) - Block (Height ~2px)
+  // 22. Gch lt va h (block lc gic /xanh) (hexagonal_paving_block) - Block (Height ~2px)
   {
     asset_name: "hexagonal_paving_block",
     mode: "block",
@@ -893,7 +893,7 @@ const models = [
     ]
   },
 
-  // 23. Gạch lát vỉa hè (zíc zắc) (zigzag_paving_block) - Block (Height ~2px)
+  // 23. Gch lt va h (zc zc) (zigzag_paving_block) - Block (Height ~2px)
   {
     asset_name: "zigzag_paving_block",
     mode: "block",
@@ -922,7 +922,7 @@ const models = [
     ]
   },
 
-  // 24. Gạch terrazzo vỉa hè (terrazzo_paving_tile) - Block (Height ~2px)
+  // 24. terrazzo_paving_tile
   {
     asset_name: "terrazzo_paving_tile",
     mode: "block",
@@ -950,7 +950,7 @@ const models = [
     ]
   },
 
-  // 25. Bó vỉa hè bê tông (concrete_curb) - Block (Height ~8px)
+  // 25. concrete_curb
   {
     asset_name: "concrete_curb",
     mode: "block",
@@ -966,7 +966,7 @@ const models = [
           { origin: [-7.5, 1.2, -3], size: [15, 1, 1.5], material: { color: "#263238", style: "solid" } },
           // Concrete curb block lower body
           { origin: [-7.5, 0, -1.5], size: [15, 5, 9], material: { color: "#78909C", style: "bordered" } },
-          // Chamfered transition slope (bó vát nghiêng 45 độ)
+          // Chamfered transition slope
           { origin: [-7.5, 4.5, -2], size: [15, 2.5, 3], pivot: [0, 5, 0], rotation: [-25, 0, 0], material: { color: "#90A4AE", style: "shaded" } },
           // Upper sidewalk pavement walking surface
           { origin: [-7.5, 5, 1], size: [15, 2.5, 6.5], material: { color: "#90A4AE", style: "bordered" } },
@@ -977,7 +977,7 @@ const models = [
     ]
   },
 
-  // 26. Vạch kẻ đường (vạch liền trắng) (solid_white_road_line) - Block (Height ~1.5px)
+  // 26. Vch k ng (vch lin trng) (solid_white_road_line) - Block (Height ~1.5px)
   {
     asset_name: "solid_white_road_line",
     mode: "block",
@@ -996,7 +996,7 @@ const models = [
     ]
   },
 
-  // 27. Vạch kẻ đường (vạch đứt vàng) (dashed_yellow_road_line) - Block (Height ~1.5px)
+  // 27. Vch k ng (vch t vng) (dashed_yellow_road_line) - Block (Height ~1.5px)
   {
     asset_name: "dashed_yellow_road_line",
     mode: "block",
@@ -1015,7 +1015,7 @@ const models = [
     ]
   },
 
-  // 28. Vạch qua đường (Zebra crossing) - Block (Height ~1.5px)
+  // 28. Zebra crossing
   {
     asset_name: "zebra_crossing",
     mode: "block",
@@ -1036,7 +1036,7 @@ const models = [
     ]
   },
 
-  // 29. Đinh phản quang gắn đường (road_stud) - Block (Height ~3px)
+  // 29. road_stud
   {
     asset_name: "road_stud",
     mode: "block",
@@ -1053,7 +1053,7 @@ const models = [
           // Approaching wheel ramp slopes (front and back)
           { origin: [-3.5, 0.8, -4.5], size: [7, 0.8, 1], pivot: [0, 1.2, -4], rotation: [25, 0, 0], material: { color: "#78909C", style: "solid" } },
           { origin: [-3.5, 0.8, 3.5], size: [7, 0.8, 1], pivot: [0, 1.2, 4], rotation: [-25, 0, 0], material: { color: "#78909C", style: "solid" } },
-          // Dual retroreflective amber lenses (mắt phản quang 3M)
+          // Dual retroreflective amber lenses
           { origin: [-2.5, 1.4, -3.8], size: [5, 0.8, 0.5], material: { color: "#FFAB00", style: "solid" } },
           { origin: [-2.5, 1.4, 3.3], size: [5, 0.8, 0.5], material: { color: "#FFAB00", style: "solid" } },
           // Center anchor shank pin
@@ -1063,7 +1063,7 @@ const models = [
     ]
   },
 
-  // 30. Rào chắn công trường (tôn) (corrugated_iron_barricade) - Block (Height ~20px)
+  // 30. Ro chn cng trng (tn) (corrugated_iron_barricade) - Block (Height ~20px)
   {
     asset_name: "corrugated_iron_barricade",
     mode: "block",
@@ -1088,7 +1088,7 @@ const models = [
           // Horizontal framing cross rails
           { origin: [-6.2, 2.5, -0.5], size: [12.4, 1.2, 1.2], material: { color: "#37474F", style: "solid" } },
           { origin: [-6.2, 18, -0.5], size: [12.4, 1.2, 1.2], material: { color: "#37474F", style: "solid" } },
-          // Galvanized corrugated sheet profile (tôn sóng lượn stepped ridges)
+          // Galvanized corrugated sheet profile
           { origin: [-5.5, 3.5, -1], size: [2, 14.5, 0.4], material: { color: "#B0BEC5", style: "bordered" } },
           { origin: [-3.5, 3.5, -0.6], size: [2, 14.5, 0.4], material: { color: "#90A4AE", style: "bordered" } },
           { origin: [-1.5, 3.5, -1], size: [2, 14.5, 0.4], material: { color: "#B0BEC5", style: "bordered" } },

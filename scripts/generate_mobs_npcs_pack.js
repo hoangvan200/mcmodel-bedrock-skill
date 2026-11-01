@@ -23,7 +23,7 @@ const petComponents = {
 
 // 10 Animals & NPCs
 const models = [
-  // 1. Chó cỏ ta (vietnamese_dog)
+  // 1. vietnamese_dog
   {
     asset_name: "vietnamese_dog",
     mode: "entity",
@@ -37,7 +37,7 @@ const models = [
         parent: "root",
         pivot: [0, 6, 0],
         cubes: [
-          // Lean muscular canine torso (golden fawn coat / lông vàng cỏ)
+          // Lean muscular canine torso
           { origin: [-2.5, 4, -5], size: [5, 5.5, 10], material: { color: "#D78B45", style: "shaded" } },
           // Chest brisket
           { origin: [-2, 4.5, 2], size: [4, 5, 3], material: { color: "#FFE0B2", style: "shaded" } }
@@ -50,14 +50,14 @@ const models = [
         cubes: [
           // Head skull
           { origin: [-2, 8, 3], size: [4, 4, 4], material: { color: "#D78B45", style: "shaded" } },
-          // Snout / muzzle (mõm chó)
+          // Snout / muzzle
           { origin: [-1.2, 8, 7], size: [2.4, 2.2, 3], material: { color: "#D78B45", style: "solid" } },
-          // Black nose button (mũi đen)
+          // Black nose button
           { origin: [-0.6, 9.4, 9.8], size: [1.2, 0.8, 0.4], material: { color: "#212121", style: "solid" } },
           // 3D protruding dark eyes
           { origin: [-2.1, 10, 5], size: [0.4, 1.2, 1.2], material: { color: "#3E2723", style: "solid" } },
           { origin: [1.7, 10, 5], size: [0.4, 1.2, 1.2], material: { color: "#3E2723", style: "solid" } },
-          // Pricked erect ears (búp tai vểnh hình tam giác)
+          // Pricked erect ears
           { origin: [-2.2, 12, 3.5], size: [1.2, 2.5, 1.5], pivot: [-1.6, 12, 4], rotation: [0, 0, -15], material: { color: "#C67A32", style: "solid" } },
           { origin: [1, 12, 3.5], size: [1.2, 2.5, 1.5], pivot: [1.6, 12, 4], rotation: [0, 0, 15], material: { color: "#C67A32", style: "solid" } }
         ]
@@ -99,14 +99,14 @@ const models = [
         parent: "body",
         pivot: [0, 8.5, -5],
         cubes: [
-          // Curved sickle tail (đuôi cong hình lưỡi liềm)
+          // Curved sickle tail
           { origin: [-0.6, 8.5, -8.5], size: [1.2, 4.5, 1.5], pivot: [0, 8.5, -5], rotation: [30, 0, 0], material: { color: "#D78B45", style: "shaded" } }
         ]
       }
     ]
   },
 
-  // 2. Mèo mướp (tabby_cat)
+  // 2. tabby_cat
   {
     asset_name: "tabby_cat",
     mode: "entity",
@@ -122,7 +122,7 @@ const models = [
         cubes: [
           // Striped brown-grey tabby cat torso
           { origin: [-2, 3, -4], size: [4, 4, 8], material: { color: "#8D6E63", style: "shaded" } },
-          // Tabby coat tiger stripes (vằn mướp đen)
+          // Tabby coat tiger stripes
           { origin: [-2.1, 4, -2], size: [4.2, 2.5, 1.5], material: { color: "#3E2723", style: "solid" } },
           { origin: [-2.1, 4, 1], size: [4.2, 2.5, 1.5], material: { color: "#3E2723", style: "solid" } }
         ]
@@ -138,7 +138,7 @@ const models = [
           { origin: [-1, 5, 5.8], size: [2, 1.4, 0.8], material: { color: "#D7CCC8", style: "solid" } },
           // Pink nose button
           { origin: [-0.4, 6, 6.4], size: [0.8, 0.5, 0.3], material: { color: "#FFAB91", style: "solid" } },
-          // Glowing emerald green eyes (mắt mèo xanh)
+          // Glowing emerald green eyes
           { origin: [-1.8, 6.4, 4.5], size: [0.3, 0.8, 0.8], material: { color: "#66BB6A", style: "solid" } },
           { origin: [1.5, 6.4, 4.5], size: [0.3, 0.8, 0.8], material: { color: "#66BB6A", style: "solid" } },
           // Triangular pointed ears
@@ -170,7 +170,7 @@ const models = [
     ]
   },
 
-  // 3. Chuột cống (sewer_rat)
+  // 3. sewer_rat
   {
     asset_name: "sewer_rat",
     mode: "entity",
@@ -230,7 +230,7 @@ const models = [
     ]
   },
 
-  // 4. Gián đất (cockroach)
+  // 4. cockroach
   {
     asset_name: "cockroach",
     mode: "entity",
@@ -244,7 +244,7 @@ const models = [
         parent: "root",
         pivot: [0, 1, 0],
         cubes: [
-          // Flat shiny oval mahogany chitin thorax & wings (thân gián nâu bóng)
+          // Flat shiny oval mahogany chitin thorax & wings
           { origin: [-1.5, 0.8, -2.5], size: [3, 1, 5], material: { color: "#3E1F17", style: "bordered" } },
           // Elytra wing seam & gradient
           { origin: [-1.2, 1.6, -2.2], size: [2.4, 0.4, 4.2], material: { color: "#5D2B1D", style: "shaded" } }
@@ -257,7 +257,7 @@ const models = [
         cubes: [
           // Small head tucked under pronotum
           { origin: [-0.8, 0.6, 2.2], size: [1.6, 0.8, 1.2], material: { color: "#2E150F", style: "solid" } },
-          // Dual slender curved antennae (râu gián dài vểnh)
+          // Dual slender curved antennae
           { origin: [-2.2, 1, 3], size: [1.5, 0.2, 2.5], pivot: [-0.6, 1, 2.5], rotation: [0, 25, 0], material: { color: "#8D4E3A", style: "solid" } },
           { origin: [0.7, 1, 3], size: [1.5, 0.2, 2.5], pivot: [0.6, 1, 2.5], rotation: [0, -25, 0], material: { color: "#8D4E3A", style: "solid" } }
         ]
@@ -279,7 +279,7 @@ const models = [
     ]
   },
 
-  // 5. Chim bồ câu (pigeon)
+  // 5. pigeon
   {
     asset_name: "pigeon",
     mode: "entity",
@@ -295,7 +295,7 @@ const models = [
         cubes: [
           // Plump slate grey body with iridescent sheen
           { origin: [-2, 2.5, -3.5], size: [4, 4, 7], material: { color: "#607D8B", style: "shaded" } },
-          // Iridescent neck feathers (lông cổ xanh tím ánh kim)
+          // Iridescent neck feathers
           { origin: [-1.6, 4.5, 1], size: [3.2, 3, 3], material: { color: "#00897B", style: "shaded" } }
         ]
       },
@@ -306,7 +306,7 @@ const models = [
         cubes: [
           // Pigeon head
           { origin: [-1.2, 6.5, 1.5], size: [2.4, 2.4, 2.5], material: { color: "#546E7A", style: "solid" } },
-          // Black beak with white cere lump (mỏ xám có cục thịt trắng)
+          // Black beak with white cere lump
           { origin: [-0.5, 6.8, 3.8], size: [1, 0.8, 1.6], material: { color: "#263238", style: "solid" } },
           { origin: [-0.4, 7.4, 3.6], size: [0.8, 0.4, 0.8], material: { color: "#FAFAFA", style: "solid" } },
           // Orange circular eyes
@@ -346,7 +346,7 @@ const models = [
     ]
   },
 
-  // 6. Cô bán hàng rong (street_vendor_npc)
+  // 6. street_vendor_npc
   {
     asset_name: "street_vendor_npc",
     mode: "entity",
@@ -360,7 +360,7 @@ const models = [
         parent: "root",
         pivot: [0, 12, 0],
         cubes: [
-          // Floral bà ba shirt torso (hồng nhạt)
+          // Floral b ba shirt torso (hng nht)
           { origin: [-3, 11, -1.8], size: [6, 8, 3.6], material: { color: "#EC407A", style: "bordered" } }
         ]
       },
@@ -374,11 +374,11 @@ const models = [
           // Eyes & gentle smile
           { origin: [-1.5, 20.8, -2.1], size: [0.8, 0.6, 0.3], material: { color: "#3E2723", style: "solid" } },
           { origin: [0.7, 20.8, -2.1], size: [0.8, 0.6, 0.3], material: { color: "#3E2723", style: "solid" } },
-          // Conical palm leaf hat (nón lá truyền thống hình nón)
+          // Conical palm leaf hat
           { origin: [-5.5, 22.5, -5.5], size: [11, 1, 11], material: { color: "#FFE082", style: "bordered" } },
           { origin: [-3.5, 23.5, -3.5], size: [7, 1.5, 7], material: { color: "#FFE082", style: "shaded" } },
           { origin: [-1.5, 25, -1.5], size: [3, 1.5, 3], material: { color: "#FFD54F", style: "solid" } },
-          // Hat chin strap (quai nón tím)
+          // Hat chin strap
           { origin: [-2.1, 19, -0.5], size: [4.2, 3.5, 0.4], material: { color: "#AB47BC", style: "solid" } }
         ]
       },
@@ -387,12 +387,12 @@ const models = [
         parent: "body",
         pivot: [0, 18, 0],
         cubes: [
-          // Bamboo shoulder pole (đòn gánh tre uốn cong đặt ngang vai)
+          // Bamboo shoulder pole
           { origin: [-10, 17.5, -0.8], size: [20, 1, 1.6], material: { color: "#C5A059", style: "bordered" } },
-          // Left basket suspension ropes & woven basket (quang gánh & thúng tre trái)
+          // Left basket suspension ropes & woven basket
           { origin: [-9, 7, -0.4], size: [0.4, 10.5, 0.8], material: { color: "#8D6E63", style: "solid" } },
           { origin: [-12, 1, -3], size: [6, 6, 6], material: { color: "#D7CCC8", style: "bordered" } },
-          // Right basket & ropes (thúng tre phải)
+          // Right basket & ropes
           { origin: [8.6, 7, -0.4], size: [0.4, 10.5, 0.8], material: { color: "#8D6E63", style: "solid" } },
           { origin: [6, 1, -3], size: [6, 6, 6], material: { color: "#D7CCC8", style: "bordered" } }
         ]
@@ -402,7 +402,7 @@ const models = [
         parent: "body",
         pivot: [0, 11, 0],
         cubes: [
-          // Black silk trousers (quần lụa đen)
+          // Black silk trousers
           { origin: [-2.8, 0, -1.5], size: [2.5, 11, 3], material: { color: "#212121", style: "solid" } },
           { origin: [0.3, 0, -1.5], size: [2.5, 11, 3], material: { color: "#212121", style: "solid" } }
         ]
@@ -410,7 +410,7 @@ const models = [
     ]
   },
 
-  // 7. Chú xe ôm (xe_om_driver_npc)
+  // 7. xe_om_driver_npc
   {
     asset_name: "xe_om_driver_npc",
     mode: "entity",
@@ -426,7 +426,7 @@ const models = [
         cubes: [
           // Weathered blue windbreaker jacket
           { origin: [-3, 11, -2], size: [6, 8, 4], material: { color: "#1565C0", style: "bordered" } },
-          // Cross-body waist satchel bag (túi bao tử đeo chéo đựng tiền lẻ)
+          // Cross-body waist satchel bag
           { origin: [-2.5, 12, -2.6], size: [5, 2.5, 1], material: { color: "#3E2723", style: "solid" } },
           { origin: [-3.2, 13, -2.2], size: [6.4, 1, 0.4], pivot: [0, 13, 0], rotation: [0, 0, 30], material: { color: "#212121", style: "solid" } }
         ]
@@ -442,7 +442,7 @@ const models = [
           // Eyes
           { origin: [-1.4, 20.8, -2.1], size: [0.7, 0.6, 0.3], material: { color: "#212121", style: "solid" } },
           { origin: [0.7, 20.8, -2.1], size: [0.7, 0.6, 0.3], material: { color: "#212121", style: "solid" } },
-          // Half-face helmet worn on head (mũ bảo hiểm nửa đầu)
+          // Half-face helmet worn on head
           { origin: [-2.5, 21.5, -2.5], size: [5, 2.5, 5], material: { color: "#37474F", style: "bordered" } },
           { origin: [-2.2, 21.8, -3.2], size: [4.4, 0.8, 1], material: { color: "#212121", style: "solid" } }
         ]
@@ -469,7 +469,7 @@ const models = [
     ]
   },
 
-  // 8. Bà bán trà đá vỉa hè (iced_tea_trader)
+  // 8. iced_tea_trader
   {
     asset_name: "iced_tea_trader",
     mode: "entity",
@@ -483,7 +483,7 @@ const models = [
         parent: "root",
         pivot: [0, 12, 0],
         cubes: [
-          // Patterned cardigan sweater & floral apron (tạp dề hoa)
+          // Patterned cardigan sweater & floral apron
           { origin: [-3, 11, -2], size: [6, 8, 4], material: { color: "#5E35B1", style: "bordered" } },
           { origin: [-2.8, 10, -2.2], size: [5.6, 7, 0.5], material: { color: "#FFD54F", style: "solid" } }
         ]
@@ -495,7 +495,7 @@ const models = [
         cubes: [
           // Face
           { origin: [-2, 19, -2], size: [4, 4, 4], material: { color: "#FFCC80", style: "solid" } },
-          // Glasses (kính lão)
+          // Glasses
           { origin: [-1.8, 20.8, -2.2], size: [3.6, 1, 0.4], material: { color: "#CFD8DC", style: "bordered" } },
           // Conical hat / hair bun
           { origin: [-5, 22.5, -5], size: [10, 1.2, 10], material: { color: "#FFE082", style: "bordered" } },
@@ -526,7 +526,7 @@ const models = [
     ]
   },
 
-  // 9. Anh thợ sửa xe vỉa hè (sidewalk_mechanic_npc)
+  // 9. sidewalk_mechanic_npc
   {
     asset_name: "sidewalk_mechanic_npc",
     mode: "entity",
@@ -555,7 +555,7 @@ const models = [
         cubes: [
           // Face
           { origin: [-2, 19, -2], size: [4, 4, 4], material: { color: "#FFCC80", style: "solid" } },
-          // Cap backwards (mũ lưỡi trai đội ngược)
+          // Cap backwards
           { origin: [-2.2, 22, -2.2], size: [4.4, 1.8, 4.4], material: { color: "#D32F2F", style: "bordered" } },
           { origin: [-1.8, 22, 2.2], size: [3.6, 0.6, 2], material: { color: "#D32F2F", style: "solid" } }
         ]
@@ -584,7 +584,7 @@ const models = [
     ]
   },
 
-  // 10. Học sinh cấp 3 (high_school_student_npc)
+  // 10. high_school_student_npc
   {
     asset_name: "high_school_student_npc",
     mode: "entity",
@@ -598,13 +598,13 @@ const models = [
         parent: "root",
         pivot: [0, 12, 0],
         cubes: [
-          // Crisp white school uniform button-up shirt (áo sơ mi trắng đồng phục)
+          // Crisp white school uniform button-up shirt
           { origin: [-3, 11, -2], size: [6, 8, 4], material: { color: "#FAFAFA", style: "bordered" } },
-          // Red school tie / neckerchief ribbon (khăn quàng / cà vạt đồng phục đỏ)
+          // Red school tie / neckerchief ribbon
           { origin: [-0.6, 14, -2.2], size: [1.2, 4, 0.3], material: { color: "#D32F2F", style: "solid" } },
-          // School logo badge on left chest pocket (phù hiệu trường)
+          // School logo badge on left chest pocket
           { origin: [1, 15, -2.1], size: [1.2, 1.2, 0.2], material: { color: "#1565C0", style: "solid" } },
-          // Heavy school backpack on shoulders (ba lô đi học sau lưng)
+          // Heavy school backpack on shoulders
           { origin: [-2.5, 11, 2], size: [5, 7, 3], material: { color: "#00897B", style: "bordered" } }
         ]
       },
@@ -639,7 +639,7 @@ const models = [
         parent: "body",
         pivot: [0, 11, 0],
         cubes: [
-          // Dark navy uniform slacks (quần tây xanh đen)
+          // Dark navy uniform slacks
           { origin: [-2.8, 0, -1.5], size: [2.5, 11, 3], material: { color: "#0D47A1", style: "solid" } },
           { origin: [0.3, 0, -1.5], size: [2.5, 11, 3], material: { color: "#0D47A1", style: "solid" } },
           // White canvas sneakers

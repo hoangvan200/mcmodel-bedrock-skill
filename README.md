@@ -36,6 +36,8 @@ This project is a standard Node.js MCP Server.
 
    👉 **Read the [INSTALL.md](./INSTALL.md)** for deep-dive integration into custom Node.js backends, OpenAI Function Calling, and Blockbench importing.
 
+   👉 **Read the [SKIN_SKILL.md](./skills/mcmodel-bedrock-skill/SKIN_SKILL.md)** for Minecraft Player Skin generation guidelines (Masterpiece Standard v2.0 with Clustered Shading & Dual-Layer Depth).
+
 ---
 
 ## 🎮 Usage & Command Syntax

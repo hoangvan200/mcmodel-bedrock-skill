@@ -1,31 +1,38 @@
-# Cấu hình & Ngữ Cảnh Bàn Giao (Context Handover)
+# Configuration & Context Handover
 
-Tài liệu này lưu trữ ngữ cảnh hiện tại của dự án **`mcmodel-bedrock-skill`** để các Agent (AI) tiếp quản có thể hiểu rõ tiến độ, luật lệ và cấu trúc hệ thống.
+This document maintains the current context of the **`mcmodel-bedrock-skill`** project so successor AI agents and developers can understand system architecture, progress, and operational invariants.
 
-## 1. Tổng quan Dự án
-Đây là một Antigravity Skill (Plugin) cấp quyền cho AI tự động xây dựng mô hình 3D Minecraft Bedrock (`.geo.json`) và tự động vẽ họa tiết (`.png`) dựa trên phân tích hình ảnh 2D hoặc mô tả văn bản, thông qua thuật toán phân tách hình học và đổ màu thủ tục.
-- **Thư mục làm việc (Workspace):** `D:\code\aiskills\mcmodel-bedrock-skill`
-- **Thư mục cài đặt Plugin (Local Registry):** `C:\Users\Admin\.gemini\config\plugins\mcmodel-bedrock`
+## 1. Project Overview
+An Antigravity Skill (Plugin) that empowers AI agents to automatically build 3D Minecraft Bedrock models (`.geo.json`) and procedural textures (`.png`) from 2D reference images or natural-language descriptions via geometric decomposition and procedural material shading.
+- **Workspace Directory:** `D:\code\aiskills\mcmodel-bedrock-skill`
+- **Plugin Registry Directory:** `C:\Users\Admin\.gemini\config\plugins\mcmodel-bedrock`
 
-## 2. Các Cập Nhật Kiến Trúc (Gần nhất)
-1. **Sửa lỗi Z-Fighting:** Áp dụng thuật toán vi dịch chuyển (`shift = index * 0.005`) cho tọa độ `origin` của mọi cube để sửa lỗi đồng phẳng (Z-fighting) ngay trong engine Bedrock mà không làm thay đổi kích thước.
-2. **Sửa lỗi nhòe Texture (Bleeding):** Sử dụng `Math.ceil()` để định vị tọa độ mỏ neo (UV offset) trên ảnh atlas trong khi vẫn bảo toàn kích thước float, giúp cube có số lẻ khớp hoàn hảo vào khung pixel số nguyên.
-3. **Cấm Noise, ưu tiên Shaded:** Thuật toán `noise` tạo ra nhiễu hạt quá lớn làm vỡ màu. Đã cập nhật luật cấm dùng `noise` cho sinh vật hữu cơ (lông, da) hoặc vỏ xe; thay vào đó, BẮT BUỘC dùng `shaded` (Volumetric Gradient 3D + Dithering 2.5%).
-4. **Quy tắc Khuôn mặt (Rule 7):** Sinh vật sống BẮT BUỘC phải có khối mắt lồi 3D và mỏ/hàm miệng rành mạch.
+## 2. Recent Architectural Enhancements
+1. **Z-Fighting Elimination:** Applied an micro-shift algorithm (`shift = index * 0.005`) to cube `origin` coordinates to resolve coplanar Z-fighting in the Bedrock engine without changing overall dimensional footprint.
+2. **Texture Bleeding Prevention:** Leveraged `Math.ceil()` UV anchor positioning on packed texture atlases while preserving float dimensions, ensuring cubes with fractional sizes cleanly align with integer pixel grids.
+3. **Shaded Priority Over Noise:** The `noise` style creates excessive grain. Invariants require `shaded` (3D Volumetric Gradient + Dithering) for organic creatures (fur, skin) and vehicle paint; `noise` is restricted strictly to sand, gravel, and stone.
+4. **Facial Geometry Standards:** Living entities MUST feature raised 3D eye pupils and distinct snout/beak/mouth geometry.
+5. **Versioned Output Directory Architecture:** All generated assets are organized into dedicated versioned subfolders under `output/` (e.g. `output/<asset_name>_v1/`, `output/<asset_name>_v2/`), preventing clutter and preserving historical revisions.
+6. **Cross-Bone Tied Hair Engine:** Support for back ponytail/braid cascades across neck and torso boundaries, preserving back outfit fabric on flank columns.
 
-## 3. Các Công cụ (Tools) Mới Mở Rộng
-1. **Addon Builder & Cờ `--build`:**
-   - Hệ thống nay sở hữu file `src/addon_builder.js` sử dụng `adm-zip`.
-   - Tool `package_addon` mới trên MCP Server cho phép tạo gói `.mcaddon` hoàn chỉnh. Tự động sinh `manifest.json`, định nghĩa Block ở Behavior Pack (`blocks/<id>.json` chuẩn 1.20.80) và map texture ở Resource Pack (`terrain_texture.json`).
-2. **Đóng gói Hàng loạt (Batch Packaging - Rule 8):** AI có khả năng tạo nhiều model chạy song song qua tool `build_minecraft_asset` (không dùng cờ `--build`), sau đó gom tất cả gọi `package_addon` một lần duy nhất để nén vào 1 Addon.
+## 3. Extended Capabilities & Tools
+1. **Addon Builder & Packaging Tool (`package_addon`):**
+   - Implemented via `src/addon_builder.js` and `adm-zip`.
+   - The MCP tool `package_addon` packages multiple generated models into a complete `.mcaddon` bundle, generating `manifest.json`, Behavior Pack block definitions (`blocks/<id>.json`), and Resource Pack texture mappings (`terrain_texture.json`).
+2. **Armor Attachable Builder (`build_armor_attachable`):**
+   - Automatically generates Bedrock Attachable JSON (`RP/attachables/<piece>.json`) and Behavior Pack Item JSON (`BP/items/<piece>.json`).
+3. **Masterpiece Skin Generator (`generate_skin`):**
+   - Dual-layer 64x64 and 128x128 HD player skin painter with dynamic hue-shifting, clustered shading, gender anatomy dimorphism, Geta/boots footwear elevation, and cross-bone flowing hair.
 
-## 4. Subagent & Các Đạo luật Bổ sung (Quan trọng nhất)
-- **Subagent Workflow & Mandatory QA (Rule 10):** Khi tạo số lượng lớn (ví dụ: 5 model), AI phải gọi các Builder Subagent. Đặc biệt, BẮT BUỘC phải gọi ít nhất 1 **QA Subagent (Kiểm duyệt chất lượng)** để săm soi `.geo.json` và `.png`, kiểm tra lỗi trước khi cho phép xuất file.
-- **Nghiên cứu Tương tác (Rule 9):** AI tuyệt đối KHÔNG ĐƯỢC tự bịa (hallucinate) JSON cho Animation (chuyển động) của Entity hoặc các tính năng tương tác của Block (ngồi lên, mở UI). AI bắt buộc phải dùng `search_web` tra cứu tài liệu Bedrock chính thống (Microsoft Learn / Bedrock.dev). Nếu bất khả thi phải báo cáo từ chối.
-- **Toán học Kích thước & Trục xoay (Rule 11):** Nếu AI thay đổi `size` của cube, nó BẮT BUỘC phải tính toán lại `origin` (`[Cx - W/2, Cy - H/2, Cz - D/2]`). `pivot` của rotation phải được neo chính xác vào điểm bản lề tương đối với vị trí thực.
+## 4. Multi-Agent Protocols & Engineering Invariants
+- **Multi-Agent Orchestration (Rule 5):** For complex tasks (e.g. multi-model packages, complex bug diagnosis, full applications), activate a multi-agent team: QA Engineer (Agent A), Strict Senior QA Reviewer (Agent B), Coder Pair (Agents C & D), Strict PM & Orchestrator (Agent E), Visual Designer (Agent F), and Animator (Agent G).
+- **Mandatory English Requirement (Rule 1):** All source code, documentation, markdown, comments, variable names, and file paths must be written exclusively in English.
+- **Mandatory Pre-Task Planning (Rule 2):** Create a structured markdown plan and feasibility analysis before modifying files or writing code.
+- **Temporary Scripts Isolation (Rule 3):** All one-off test scripts and benchmarks must reside in `temp/` and must never be committed to version control.
+- **Remote GitHub Source Protection (Rule 4):** Never push or modify remote Git branches without explicit user confirmation.
+- **Mathematical Invariants:** Any modification to a cube's `size` requires recalculating its `origin` (`[Cx - W/2, Cy - H/2, Cz - D/2]`). Rotation pivots must anchor to real joint hinges.
 
-## 5. Trạng thái Hiện tại
-- Mọi bộ luật trong `SKILL.md` đã được tối ưu đến mức hoàn hảo.
-- Mã nguồn đã được Commit, Push lên nhánh `main` của GitHub.
-- Local Plugin đã được đồng bộ hóa hoàn toàn.
-- **Next Step (Khuyến nghị):** Agent tiếp quản có thể thử nghiệm khả năng tạo Batch (nhiều entity cùng lúc), làm việc với Subagent hoặc thử nghiệm tạo Animation JSON.
+## 5. Current State
+- Codebase fully internationalized to 100% English.
+- Versioned output subdirectories active across all CLI and MCP tools.
+- Cross-bone ponytail engine verified with 100% compliance across all 5 quality gates.

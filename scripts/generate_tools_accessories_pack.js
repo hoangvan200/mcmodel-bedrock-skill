@@ -3,9 +3,9 @@ const path = require('path');
 const { buildMinecraftAsset } = require('../src/index.js');
 const { packageAddon } = require('../src/addon_builder.js');
 
-// 10 Items: Phụ Kiện & Công Cụ (Tools & Accessories)
+// 10 Items: Ph Kin & Cng C (Tools & Accessories)
 const models = [
-  // 1. Chìa khóa xe máy (motorcycle_key)
+  // 1. motorcycle_key
   {
     asset_name: "motorcycle_key",
     mode: "block",
@@ -24,14 +24,14 @@ const models = [
           // Key bitting teeth notches
           { origin: [0.8, -4.5, -0.4], size: [0.6, 1, 0.8], material: { color: "#90A4AE", style: "solid" } },
           { origin: [0.8, -2.5, -0.4], size: [0.6, 1.2, 0.8], material: { color: "#90A4AE", style: "solid" } },
-          // Angled fabric keychain ribbon tag (thẻ dây móc khóa đỏ)
+          // Angled fabric keychain ribbon tag
           { origin: [-1, 5, -0.5], size: [2, 6, 1], pivot: [0, 5, 0], rotation: [0, 0, 18], material: { color: "#D32F2F", style: "solid" } }
         ]
       }
     ]
   },
 
-  // 2. Mũ bảo hiểm nửa đầu (half_face_helmet)
+  // 2. half_face_helmet
   {
     asset_name: "half_face_helmet",
     mode: "block",
@@ -46,19 +46,19 @@ const models = [
           { origin: [-4.5, 2, -4.5], size: [9, 5, 9], pivot: [0, 4.5, 0], rotation: [0, 45, 0], material: { color: "#1565C0", style: "bordered" } },
           // Inner black foam / fabric lining (hollow cavity inside)
           { origin: [-3.8, 1, -3.8], size: [7.6, 3, 7.6], material: { color: "#212121", style: "solid" } },
-          // Front black sun visor peak cap (lưỡi trai)
+          // Front black sun visor peak cap
           { origin: [-4, 2.5, -6.5], size: [8, 1, 2], pivot: [0, 3, -4.5], rotation: [15, 0, 0], material: { color: "#212121", style: "solid" } },
-          // Nylon chin strap straps (quai cài)
+          // Nylon chin strap straps
           { origin: [-4.2, 0, -0.5], size: [0.6, 2.5, 1], material: { color: "#212121", style: "solid" } },
           { origin: [3.6, 0, -0.5], size: [0.6, 2.5, 1], material: { color: "#212121", style: "solid" } },
-          // Red quick-release buckle (khóa bấm đỏ)
+          // Red quick-release buckle
           { origin: [-0.8, 0, -0.5], size: [1.6, 0.6, 1], material: { color: "#D32F2F", style: "solid" } }
         ]
       }
     ]
   },
 
-  // 3. Mũ bảo hiểm 3/4 (three_quarter_helmet)
+  // 3. three_quarter_helmet
   {
     asset_name: "three_quarter_helmet",
     mode: "block",
@@ -71,21 +71,21 @@ const models = [
           // Rounded retro 3/4 shell (matte black/gunmetal)
           { origin: [-5, 1, -5], size: [10, 8, 10], material: { color: "#263238", style: "bordered" } },
           { origin: [-5, 1, -5], size: [10, 8, 10], pivot: [0, 5, 0], rotation: [0, 45, 0], material: { color: "#263238", style: "bordered" } },
-          // Face opening cavity (hốc mặt thoáng)
+          // Face opening cavity
           { origin: [-3.5, 1.5, -5.2], size: [7, 5.5, 2.5], material: { color: "#1B1B1B", style: "solid" } },
-          // Clear bubble flip-up face shield visor (kính chắn gió)
+          // Clear bubble flip-up face shield visor
           { origin: [-4, 2, -6], size: [8, 5, 1.2], material: { color: "#80DEEA", style: "shaded" } },
           // Chrome visor pivot snap buttons on sides
           { origin: [-5.4, 6, -2], size: [0.6, 1.2, 1.2], material: { color: "#ECEFF1", style: "solid" } },
           { origin: [4.8, 6, -2], size: [0.6, 1.2, 1.2], material: { color: "#ECEFF1", style: "solid" } },
-          // Vintage racing stripe decal (vạch trắng retro)
+          // Vintage racing stripe decal
           { origin: [-1, 7.5, -4.8], size: [2, 1.8, 9.6], material: { color: "#FAFAFA", style: "solid" } }
         ]
       }
     ]
   },
 
-  // 4. Áo mưa tiện lợi (disposable_raincoat)
+  // 4. disposable_raincoat
   {
     asset_name: "disposable_raincoat",
     mode: "block",
@@ -106,7 +106,7 @@ const models = [
     ]
   },
 
-  // 5. Áo mưa cánh dơi (batwing_raincoat)
+  // 5. batwing_raincoat
   {
     asset_name: "batwing_raincoat",
     mode: "block",
@@ -118,7 +118,7 @@ const models = [
         cubes: [
           // Folded heavy oxford poncho packet (dark blue)
           { origin: [-6, 0, -4], size: [12, 3, 8], material: { color: "#0D47A1", style: "bordered" } },
-          // Clear headlight oval plastic window (kính bóng đèn xe máy)
+          // Clear headlight oval plastic window
           { origin: [-3, 3, -2], size: [6, 0.3, 4], material: { color: "#E0F7FA", style: "solid" } },
           // Reflective warning stripe on back
           { origin: [-5.5, 2.8, 2], size: [11, 0.3, 1.5], material: { color: "#EEFF41", style: "solid" } },
@@ -129,7 +129,7 @@ const models = [
     ]
   },
 
-  // 6. Cờ lê 10 (wrench_10mm)
+  // 6. wrench_10mm
   {
     asset_name: "wrench_10mm",
     mode: "block",
@@ -141,11 +141,11 @@ const models = [
         cubes: [
           // Chrome-vanadium flat handle beam
           { origin: [-1, 0, -5], size: [2, 1, 10], material: { color: "#90A4AE", style: "bordered" } },
-          // Open-jaw wrench head (đầu hở)
+          // Open-jaw wrench head
           { origin: [-2.2, 0, -7.5], size: [4.4, 1, 3], material: { color: "#B0BEC5", style: "bordered" } },
-          // Open slot cutout (hốc miệng ngậm 10mm)
+          // Open slot cutout
           { origin: [-1, 0, -8], size: [2, 1.2, 2], material: { color: "#37474F", style: "solid" } },
-          // Ring box wrench head (đầu tròng 12 cạnh)
+          // Ring box wrench head
           { origin: [-2, 0, 4.5], size: [4, 1, 3.5], material: { color: "#B0BEC5", style: "bordered" } },
           // Inner hollow hole for box end
           { origin: [-1, 0, 5.2], size: [2, 1.2, 2], material: { color: "#37474F", style: "solid" } },
@@ -156,7 +156,7 @@ const models = [
     ]
   },
 
-  // 7. Tua vít 4 cạnh (phillips_screwdriver)
+  // 7. phillips_screwdriver
   {
     asset_name: "phillips_screwdriver",
     mode: "block",
@@ -174,14 +174,14 @@ const models = [
           { origin: [-1, 6, -1], size: [2, 1.5, 2], material: { color: "#90A4AE", style: "solid" } },
           // Round chrome vanadium steel shank
           { origin: [-0.5, 7.5, -0.5], size: [1, 7.5, 1], material: { color: "#CFD8DC", style: "bordered" } },
-          // Blackened magnetic Phillips cross tip (mũi 4 cạnh)
+          // Blackened magnetic Phillips cross tip
           { origin: [-0.6, 15, -0.6], size: [1.2, 1.5, 1.2], material: { color: "#212121", style: "solid" } }
         ]
       }
     ]
   },
 
-  // 8. Bơm tay mini (mini_hand_pump)
+  // 8. mini_hand_pump
   {
     asset_name: "mini_hand_pump",
     mode: "block",
@@ -206,7 +206,7 @@ const models = [
     ]
   },
 
-  // 9. Miếng vá săm xe (tire_patch)
+  // 9. tire_patch
   {
     asset_name: "tire_patch",
     mode: "block",
@@ -229,7 +229,7 @@ const models = [
     ]
   },
 
-  // 10. Giấy phép lái xe (drivers_license)
+  // 10. drivers_license
   {
     asset_name: "drivers_license",
     mode: "block",
